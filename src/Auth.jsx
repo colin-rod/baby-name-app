@@ -30,16 +30,15 @@ export default function Auth() {
     if (error) {
       if (
         type === 'signup' &&
-        error.message.toLowerCase().includes('user already registered')
+        (error.message.toLowerCase().includes('user already registered') || error.status === 400)
       ) {
-        setError("Looks like this email is already registered. Want to log in instead?")
-        setMode('login')
-      } else if (type === 'signup' && error.status === 400) {
-        setError("Looks like this email is already registered. Want to log in instead?")
-        setMode('login')
+        setError("Looks like this email is already registered. Please log in instead.");
+        setMode('login');
       } else {
         setError(error.message)
       }
+    } else if (data?.user && type === 'signup') {
+      setError("Signup successful! Please check your email and confirm your account to continue.");
     } else if (data?.session) {
       const { data: invites, error: inviteError } = await supabase
         .from('pending_invites')
@@ -90,6 +89,11 @@ export default function Auth() {
             I'm new here
           </button>
         </div>
+        {mode === 'signup' && (
+          <p className="text-sm text-gray-600 mb-2 text-center">
+            Already have an account? Try logging in above.
+          </p>
+        )}
         <input
           type="email"
           placeholder="Email"
