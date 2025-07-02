@@ -302,6 +302,7 @@ if (inviteError) {
             listId={id}
             mode="sent"
             currentUserEmail={user.email}
+            currentUserId={user.id}
           />
         </div>
       </div>

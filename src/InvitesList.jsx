@@ -8,7 +8,7 @@ export default function InvitesList({ listId, currentUserId, currentUserEmail, m
     const fetchInvites = async () => {
       let query = supabase.from('pending_invites').select('*');
 
-      if (mode === 'sent' && currentUserId) {
+      if (mode === 'sent' && currentUserId && listId) {
         query = query.eq('invited_by', currentUserId).eq('list_id', listId).eq('status', 'pending');
       } else if (mode !== 'sent' && currentUserEmail) {
         query = query.eq('email', currentUserEmail).eq('status', 'pending');
@@ -29,7 +29,11 @@ export default function InvitesList({ listId, currentUserId, currentUserEmail, m
   }, [listId, currentUserId, currentUserEmail, mode]);
 
   if (!invites.length) {
-    return <p className="text-sm text-gray-500">No pending invites sent yet.</p>;
+    return (
+      <p className="text-sm text-gray-500">
+        {mode === 'sent' ? 'No pending invites sent yet.' : 'No pending invites received yet.'}
+      </p>
+    );
   }
 
   return (
