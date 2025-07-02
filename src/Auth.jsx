@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from './supabaseClient'
 import { Link } from 'react-router-dom'
 import { useSearchParams, useNavigate } from 'react-router-dom'
@@ -16,6 +16,7 @@ export default function Auth() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const redirectPath = searchParams.get('redirect') || '/'
+  const [pendingInviteExists, setPendingInviteExists] = useState(false)
 
 
   const handleAuth = async (type) => {
@@ -40,7 +41,19 @@ export default function Auth() {
         setError(error.message)
       }
     } else if (data?.session) {
-      navigate(redirectPath)
+      const { data: invites, error: inviteError } = await supabase
+        .from('pending_invites')
+        .select('*')
+        .eq('email', email)
+        .eq('status', 'pending')
+
+      if (inviteError) {
+        console.error('Error checking invites:', inviteError)
+      } else if (invites.length > 0) {
+        setPendingInviteExists(true)
+      } else {
+        navigate(redirectPath)
+      }
     }
 
     setLoading(false)
@@ -137,6 +150,17 @@ export default function Auth() {
             {resetMessage && <p className="text-green-600 mt-2">{resetMessage}</p>}
           </div>
         ) : null}
+        {pendingInviteExists && (
+          <div className="mt-6 bg-yellow-100 border border-yellow-300 text-yellow-800 p-4 rounded">
+            <p className="mb-2">You’re invited to join a name list! Click below to accept your invitation.</p>
+            <button
+              onClick={() => navigate('/notifications')}
+              className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+            >
+              Review Invites
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )
