@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from './supabaseClient'
 import { FaMars, FaVenus, FaGenderless, FaChevronRight, FaChevronDown } from 'react-icons/fa'
 import AdminRoleManager from './AdminRoleManager'
+import InvitesList from './InvitesList'
 
 const ATTRIBUTE_OPTIONS = [
   'Short', 'Long', 'Unique', 'Classic', 'Trendy', 'Biblical', 'Nature-inspired',
@@ -291,6 +292,10 @@ if (inviteError) {
               Send Invite
             </button>
           </form>
+        </div>
+        <div className="mt-8">
+          <h3 className="font-semibold mb-2">Invites You've Sent</h3>
+          <InvitesList listId={id} currentUserId={user.id} />
         </div>
       </div>
     </div>
