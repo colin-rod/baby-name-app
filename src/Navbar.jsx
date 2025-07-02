@@ -26,6 +26,9 @@ export default function Navbar() {
           >
             Dashboard
           </Link>
+          <Link to="/manage-lists" className="text-white hover:text-gray-300 px-3 py-2 rounded-md text-sm font-medium">
+  Notifications
+</Link>
           <Link
             to="/settings"
             className="text-sm text-green-800 hover:text-green-900 font-medium transition"
