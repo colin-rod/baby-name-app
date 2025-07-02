@@ -80,14 +80,14 @@ export default function Auth() {
         <input
           type="email"
           placeholder="Email"
-          className="mb-2 p-2 border rounded w-64"
+          className="mb-2 p-2 border rounded w-full"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
           type="password"
           placeholder="Password"
-          className="mb-2 p-2 border rounded w-64"
+          className="mb-2 p-2 border rounded w-full"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

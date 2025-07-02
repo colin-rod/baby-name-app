@@ -304,14 +304,6 @@ if (inviteError) {
             currentUserEmail={user.email}
           />
         </div>
-        <div className="mt-8">
-          <h3 className="font-semibold mb-2">Invites You've Received</h3>
-          <InvitesList
-            key={`received-${inviteRefreshKey}`}
-            mode="received"
-            currentUserEmail={user.email}
-          />
-        </div>
       </div>
     </div>
   )}
