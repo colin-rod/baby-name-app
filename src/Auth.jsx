@@ -63,15 +63,15 @@ export default function Auth() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 p-6">
       <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md">
         <h1 className="text-3xl font-bold text-center mb-6">EloBabyHub</h1>
-        <div className="border border-gray-300 rounded-md p-3 mb-4 flex gap-4 justify-center">
+        <div className="flex border-b border-gray-300 mb-4">
           <button
-            className={`px-4 py-2 rounded ${mode === 'login' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+            className={`flex-1 text-center px-4 py-2 rounded-t ${mode === 'login' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
             onClick={() => setMode('login')}
           >
             I already have an account
           </button>
           <button
-            className={`px-4 py-2 rounded ${mode === 'signup' ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
+            className={`flex-1 text-center px-4 py-2 rounded-t ${mode === 'signup' ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
             onClick={() => setMode('signup')}
           >
             I'm new here
