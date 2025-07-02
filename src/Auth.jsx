@@ -63,7 +63,7 @@ export default function Auth() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 p-6">
       <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md">
         <h1 className="text-3xl font-bold text-center mb-6">EloBabyHub</h1>
-        <div className="flex gap-4 mb-4">
+        <div className="border border-gray-300 rounded-md p-3 mb-4 flex gap-4 justify-center">
           <button
             className={`px-4 py-2 rounded ${mode === 'login' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
             onClick={() => setMode('login')}
@@ -92,23 +92,30 @@ export default function Auth() {
           onChange={(e) => setPassword(e.target.value)}
         />
         {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
-        {mode === 'login' ? (
-          <button
-            className="bg-blue-600 text-white px-4 py-2 rounded"
-            onClick={() => handleAuth('signin')}
-            disabled={loading}
-          >
-            Log In
-          </button>
-        ) : (
-          <button
-            className="bg-green-600 text-white px-4 py-2 rounded"
-            onClick={() => handleAuth('signup')}
-            disabled={loading}
-          >
-            Sign Up
-          </button>
-        )}
+        <div className="flex flex-col items-center mt-4 space-y-2">
+          {mode === 'login' ? (
+            <>
+              <button
+                className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+                onClick={() => handleAuth('signin')}
+                disabled={loading}
+              >
+                Log In
+              </button>
+              <Link to="/forgot-password" className="text-sm text-blue-600 underline">
+                Forgot Password?
+              </Link>
+            </>
+          ) : (
+            <button
+              className="bg-green-600 text-white px-4 py-2 rounded w-full"
+              onClick={() => handleAuth('signup')}
+              disabled={loading}
+            >
+              Sign Up
+            </button>
+          )}
+        </div>
         {resetRequested ? (
           <div className="mt-4">
             <input
@@ -129,13 +136,7 @@ export default function Auth() {
             </p>
             {resetMessage && <p className="text-green-600 mt-2">{resetMessage}</p>}
           </div>
-        ) : (
-          mode === 'login' && (
-            <Link to="/forgot-password" className="text-sm text-blue-600 underline">
-              Forgot Password?
-            </Link>
-          )
-        )}
+        ) : null}
       </div>
     </div>
   )
