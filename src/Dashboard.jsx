@@ -52,6 +52,9 @@ export default function Dashboard({ user }) {
               + Upload New Name List
             </button>
           </Link>
+          <Link to="/manage-lists" className="text-blue-600 underline">
+  Manage Lists
+</Link>
         </div>
 
         <div className="bg-white p-4 rounded shadow">

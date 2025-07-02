@@ -56,6 +56,7 @@ function App() {
           <Route path="/list/:id/compare" element={<NameComparisonPage user={session.user} />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/edit/:id" element={<EditList user={session.user} />} />
+          <Route path="/manage-lists" element={<ManageLists user={user} />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </>
