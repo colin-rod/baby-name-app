@@ -6,6 +6,7 @@ export default function Dashboard({ user }) {
   const [listsByRole, setListsByRole] = useState({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [sortBy, setSortBy] = useState('created_desc')
 
   useEffect(() => {
     const fetchLists = async () => {
@@ -54,6 +55,21 @@ export default function Dashboard({ user }) {
           </Link>
         </div>
 
+        <div className="mb-4">
+          <label htmlFor="sortBy" className="mr-2 font-medium">Sort by:</label>
+          <select
+            id="sortBy"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="border rounded px-2 py-1"
+          >
+            <option value="created_desc">Newest First</option>
+            <option value="created_asc">Oldest First</option>
+            <option value="title_asc">Title A-Z</option>
+            <option value="title_desc">Title Z-A</option>
+          </select>
+        </div>
+
         <div className="bg-white p-4 rounded shadow">
           <h2 className="text-lg font-semibold mb-3">Your Name Lists</h2>
           {loading ? (
@@ -66,7 +82,16 @@ export default function Dashboard({ user }) {
             Object.entries(listsByRole).map(([role, lists]) => (
               <div key={role} className="mb-6">
                 <h3 className="text-md font-bold capitalize mb-2">{role} Lists</h3>
-                {lists.map((list) => (
+                {lists
+                  .slice()
+                  .sort((a, b) => {
+                    if (sortBy === 'created_desc') return new Date(b.created_at) - new Date(a.created_at)
+                    if (sortBy === 'created_asc') return new Date(a.created_at) - new Date(b.created_at)
+                    if (sortBy === 'title_asc') return a.title.localeCompare(b.title)
+                    if (sortBy === 'title_desc') return b.title.localeCompare(a.title)
+                    return 0
+                  })
+                  .map((list) => (
                   <div key={list.id} className="border p-4 rounded mb-2 flex justify-between items-center">
                     <div>
                       <Link to={`/list/${list.id}/compare`} className="font-semibold text-blue-700 hover:underline">
