@@ -1,16 +1,20 @@
 import { useEffect, useState } from 'react';
 import { supabase } from './supabaseClient';
 
-export default function InvitesList({ listId, currentUserId }) {
+export default function InvitesList({ listId, currentUserId, currentUserEmail, mode = 'sent' }) {
   const [invites, setInvites] = useState([]);
 
   useEffect(() => {
     const fetchInvites = async () => {
-      const { data, error } = await supabase
-        .from('pending_invites')
-        .select('*')
-        .eq('list_id', listId)
-        .eq('invited_by', currentUserId);
+      let query = supabase.from('pending_invites').select('*');
+
+      if (mode === 'sent' && currentUserId) {
+        query = query.eq('invited_by', currentUserId).eq('list_id', listId);
+      } else if (mode !== 'sent' && currentUserEmail) {
+        query = query.eq('email', currentUserEmail);
+      }
+
+      const { data, error } = await query;
 
       if (error) {
         console.error('Error fetching invites:', error);
@@ -19,10 +23,10 @@ export default function InvitesList({ listId, currentUserId }) {
       }
     };
 
-    if (listId && currentUserId) {
+    if ((mode === 'sent' && currentUserId && listId) || (mode !== 'sent' && currentUserEmail)) {
       fetchInvites();
     }
-  }, [listId, currentUserId]);
+  }, [listId, currentUserId, currentUserEmail, mode]);
 
   if (!invites.length) {
     return <p className="text-sm text-gray-500">No pending invites sent yet.</p>;

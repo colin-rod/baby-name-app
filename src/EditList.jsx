@@ -295,7 +295,11 @@ if (inviteError) {
         </div>
         <div className="mt-8">
           <h3 className="font-semibold mb-2">Invites You've Sent</h3>
-          <InvitesList listId={id} currentUserId={user.id} />
+          <InvitesList listId={id} mode="sent" currentUserEmail={user.email} />
+        </div>
+        <div className="mt-8">
+          <h3 className="font-semibold mb-2">Invites You've Received</h3>
+          <InvitesList mode="received" currentUserEmail={user.email} />
         </div>
       </div>
     </div>
