@@ -13,6 +13,7 @@ import EditList from './EditList'
 import NameComparison from './NameComparison'
 import NameComparisonPage from './NameComparisonPage'
 import InvitePage from './InvitePage'
+import ManageLists from './ManageLists'
 
 
 
@@ -56,7 +57,7 @@ function App() {
           <Route path="/list/:id/compare" element={<NameComparisonPage user={session.user} />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/edit/:id" element={<EditList user={session.user} />} />
-          <Route path="/manage-lists" element={<ManageLists user={user} />} />
+          <Route path="/manage-lists" element={<ManageLists user={session.user} />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </>
