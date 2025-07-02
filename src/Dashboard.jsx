@@ -76,7 +76,7 @@ export default function Dashboard({ user }) {
                     </div>
                     <div className="flex gap-4 items-center">
                       <a href={`/list/${list.id}/results`} className="text-blue-600 text-sm underline flex items-center gap-1">
-                        📈 View Rankings
+                        📈 View Results
                       </a>
                       <a href={`/edit/${list.id}`} className="text-sm text-blue-600 underline flex items-center gap-1">
                         ✏️ Edit
