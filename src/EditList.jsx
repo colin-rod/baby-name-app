@@ -258,6 +258,7 @@ export default function EditList({ user }) {
     email,
     role,
     status: 'pending',
+      invited_by: user.id,
   })
 
 if (inviteError) {
