@@ -9,9 +9,9 @@ export default function InvitesList({ listId, currentUserId, currentUserEmail, m
       let query = supabase.from('pending_invites').select('*');
 
       if (mode === 'sent' && currentUserId) {
-        query = query.eq('invited_by', currentUserId).eq('list_id', listId);
+        query = query.eq('invited_by', currentUserId).eq('list_id', listId).eq('status', 'pending');
       } else if (mode !== 'sent' && currentUserEmail) {
-        query = query.eq('email', currentUserEmail);
+        query = query.eq('email', currentUserEmail).eq('status', 'pending');
       }
 
       const { data, error } = await query;
