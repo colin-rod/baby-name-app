@@ -26,7 +26,11 @@ const redirectPath = searchParams.get('redirect') || '/'
     : await supabase.auth.signInWithPassword({ email, password })
 
   if (error) {
-    setError(error.message)
+    if (type === 'signup' && error.message.toLowerCase().includes('already registered')) {
+      setError('You already have an account. Please log in instead.')
+    } else {
+      setError(error.message)
+    }
   } else if (data?.session) {
     navigate(redirectPath)
   }
