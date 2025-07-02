@@ -31,6 +31,7 @@ export default function EditList({ user }) {
   const [error, setError] = useState('')
   const [showAccess, setShowAccess] = useState(false)
   const [showAttributes, setShowAttributes] = useState(false)
+  const [inviteRefreshKey, setInviteRefreshKey] = useState(0)
 
   useEffect(() => {
     const fetchList = async () => {
@@ -140,6 +141,7 @@ export default function EditList({ user }) {
       console.error('Failed to send invite:', error)
     } else {
       console.log('Invite email sent!', data)
+      setInviteRefreshKey((prev) => prev + 1)
     }
   }
 
@@ -295,11 +297,20 @@ if (inviteError) {
         </div>
         <div className="mt-8">
           <h3 className="font-semibold mb-2">Invites You've Sent</h3>
-          <InvitesList listId={id} mode="sent" currentUserEmail={user.email} />
+          <InvitesList
+            key={`sent-${inviteRefreshKey}`}
+            listId={id}
+            mode="sent"
+            currentUserEmail={user.email}
+          />
         </div>
         <div className="mt-8">
           <h3 className="font-semibold mb-2">Invites You've Received</h3>
-          <InvitesList mode="received" currentUserEmail={user.email} />
+          <InvitesList
+            key={`received-${inviteRefreshKey}`}
+            mode="received"
+            currentUserEmail={user.email}
+          />
         </div>
       </div>
     </div>
