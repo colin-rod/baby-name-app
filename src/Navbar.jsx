@@ -16,6 +16,7 @@ export default function Navbar() {
           .from('pending_invites')
           .select('id')
           .eq('email', user.email)
+          .eq('status', 'pending')
 
         if (data && data.length > 0) {
           setHasPendingInvites(true)
