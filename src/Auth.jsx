@@ -60,78 +60,83 @@ export default function Auth() {
   
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
-      <div className="flex gap-4 mb-4">
-        <button
-          className={`px-4 py-2 rounded ${mode === 'login' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
-          onClick={() => setMode('login')}
-        >
-          I already have an account
-        </button>
-        <button
-          className={`px-4 py-2 rounded ${mode === 'signup' ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
-          onClick={() => setMode('signup')}
-        >
-          I'm new here
-        </button>
-      </div>
-      <input
-        type="email"
-        placeholder="Email"
-        className="mb-2 p-2 border rounded w-64"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        className="mb-2 p-2 border rounded w-64"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
-      {mode === 'login' ? (
-        <button
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-          onClick={() => handleAuth('signin')}
-          disabled={loading}
-        >
-          Log In
-        </button>
-      ) : (
-        <button
-          className="bg-green-600 text-white px-4 py-2 rounded"
-          onClick={() => handleAuth('signup')}
-          disabled={loading}
-        >
-          Sign Up
-        </button>
-      )}
-      {resetRequested ? (
-        <div className="mt-4">
-          <input
-            type="email"
-            value={resetEmail}
-            onChange={(e) => setResetEmail(e.target.value)}
-            placeholder="Enter your email"
-            className="border px-3 py-2 rounded w-full mb-2"
-          />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 p-6">
+      <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md">
+        <h1 className="text-3xl font-bold text-center mb-6">EloBabyHub</h1>
+        <div className="flex gap-4 mb-4">
           <button
-            onClick={handleResetPassword}
-            className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+            className={`px-4 py-2 rounded ${mode === 'login' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+            onClick={() => setMode('login')}
           >
-            Send Reset Link
+            I already have an account
           </button>
-          <p className="text-sm text-gray-600 mt-2 cursor-pointer" onClick={() => setResetRequested(false)}>
-            ← Back to login
-          </p>
-          {resetMessage && <p className="text-green-600 mt-2">{resetMessage}</p>}
+          <button
+            className={`px-4 py-2 rounded ${mode === 'signup' ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
+            onClick={() => setMode('signup')}
+          >
+            I'm new here
+          </button>
         </div>
-      ) : (
-        <Link to="/forgot-password" className="text-sm text-blue-600 underline">
-          Forgot Password?
-        </Link>
-      )}
+        <input
+          type="email"
+          placeholder="Email"
+          className="mb-2 p-2 border rounded w-64"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          className="mb-2 p-2 border rounded w-64"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
+        {mode === 'login' ? (
+          <button
+            className="bg-blue-600 text-white px-4 py-2 rounded"
+            onClick={() => handleAuth('signin')}
+            disabled={loading}
+          >
+            Log In
+          </button>
+        ) : (
+          <button
+            className="bg-green-600 text-white px-4 py-2 rounded"
+            onClick={() => handleAuth('signup')}
+            disabled={loading}
+          >
+            Sign Up
+          </button>
+        )}
+        {resetRequested ? (
+          <div className="mt-4">
+            <input
+              type="email"
+              value={resetEmail}
+              onChange={(e) => setResetEmail(e.target.value)}
+              placeholder="Enter your email"
+              className="border px-3 py-2 rounded w-full mb-2"
+            />
+            <button
+              onClick={handleResetPassword}
+              className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+            >
+              Send Reset Link
+            </button>
+            <p className="text-sm text-gray-600 mt-2 cursor-pointer" onClick={() => setResetRequested(false)}>
+              ← Back to login
+            </p>
+            {resetMessage && <p className="text-green-600 mt-2">{resetMessage}</p>}
+          </div>
+        ) : (
+          mode === 'login' && (
+            <Link to="/forgot-password" className="text-sm text-blue-600 underline">
+              Forgot Password?
+            </Link>
+          )
+        )}
+      </div>
     </div>
   )
 }
