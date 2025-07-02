@@ -10,38 +10,41 @@ export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [resetEmail, setResetEmail] = useState('')
-const [resetRequested, setResetRequested] = useState(false)
-const [resetMessage, setResetMessage] = useState('')
-const [searchParams] = useSearchParams()
-const navigate = useNavigate()
-const redirectPath = searchParams.get('redirect') || '/'
+  const [resetRequested, setResetRequested] = useState(false)
+  const [resetMessage, setResetMessage] = useState('')
+  const [mode, setMode] = useState('login')
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const redirectPath = searchParams.get('redirect') || '/'
 
 
- const handleAuth = async (type) => {
-  setLoading(true)
-  setError(null)
+  const handleAuth = async (type) => {
+    setLoading(true)
+    setError(null)
 
-  const { data, error } = type === 'signup'
-    ? await supabase.auth.signUp({ email, password })
-    : await supabase.auth.signInWithPassword({ email, password })
+    const { data, error } = type === 'signup'
+      ? await supabase.auth.signUp({ email, password })
+      : await supabase.auth.signInWithPassword({ email, password })
 
-  if (error) {
-    if (
-      type === 'signup' &&
-      error.message.toLowerCase().includes('user already registered')
-    ) {
-      setError('You already have an account. Please log in instead.')
-    } else if (type === 'signup' && error.status === 400) {
-      setError('Account already exists. Try logging in.')
-    } else {
-      setError(error.message)
+    if (error) {
+      if (
+        type === 'signup' &&
+        error.message.toLowerCase().includes('user already registered')
+      ) {
+        setError("Looks like this email is already registered. Want to log in instead?")
+        setMode('login')
+      } else if (type === 'signup' && error.status === 400) {
+        setError("Looks like this email is already registered. Want to log in instead?")
+        setMode('login')
+      } else {
+        setError(error.message)
+      }
+    } else if (data?.session) {
+      navigate(redirectPath)
     }
-  } else if (data?.session) {
-    navigate(redirectPath)
-  }
 
-  setLoading(false)
-}
+    setLoading(false)
+  }
 
   const handleResetPassword = async () => {
     const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
@@ -58,7 +61,20 @@ const redirectPath = searchParams.get('redirect') || '/'
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-4">
-      <h1 className="text-2xl font-bold mb-4">Login or Sign Up</h1>
+      <div className="flex gap-4 mb-4">
+        <button
+          className={`px-4 py-2 rounded ${mode === 'login' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setMode('login')}
+        >
+          I already have an account
+        </button>
+        <button
+          className={`px-4 py-2 rounded ${mode === 'signup' ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
+          onClick={() => setMode('signup')}
+        >
+          I'm new here
+        </button>
+      </div>
       <input
         type="email"
         placeholder="Email"
@@ -74,7 +90,7 @@ const redirectPath = searchParams.get('redirect') || '/'
         onChange={(e) => setPassword(e.target.value)}
       />
       {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
-      <div className="flex gap-2">
+      {mode === 'login' ? (
         <button
           className="bg-blue-600 text-white px-4 py-2 rounded"
           onClick={() => handleAuth('signin')}
@@ -82,6 +98,7 @@ const redirectPath = searchParams.get('redirect') || '/'
         >
           Log In
         </button>
+      ) : (
         <button
           className="bg-green-600 text-white px-4 py-2 rounded"
           onClick={() => handleAuth('signup')}
@@ -89,34 +106,32 @@ const redirectPath = searchParams.get('redirect') || '/'
         >
           Sign Up
         </button>
-      </div>
+      )}
       {resetRequested ? (
-  <div className="mt-4">
-    <input
-      type="email"
-      value={resetEmail}
-      onChange={(e) => setResetEmail(e.target.value)}
-      placeholder="Enter your email"
-      className="border px-3 py-2 rounded w-full mb-2"
-    />
-    <button
-      onClick={handleResetPassword}
-      className="bg-blue-600 text-white px-4 py-2 rounded w-full"
-    >
-      Send Reset Link
-    </button>
-    <p className="text-sm text-gray-600 mt-2 cursor-pointer" onClick={() => setResetRequested(false)}>
-      ← Back to login
-    </p>
-    {resetMessage && <p className="text-green-600 mt-2">{resetMessage}</p>}
-  </div>
-) : (
-<Link to="/forgot-password" className="text-sm text-blue-600 underline">
-  Forgot Password?
-</Link>
-
-)}
-
+        <div className="mt-4">
+          <input
+            type="email"
+            value={resetEmail}
+            onChange={(e) => setResetEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="border px-3 py-2 rounded w-full mb-2"
+          />
+          <button
+            onClick={handleResetPassword}
+            className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+          >
+            Send Reset Link
+          </button>
+          <p className="text-sm text-gray-600 mt-2 cursor-pointer" onClick={() => setResetRequested(false)}>
+            ← Back to login
+          </p>
+          {resetMessage && <p className="text-green-600 mt-2">{resetMessage}</p>}
+        </div>
+      ) : (
+        <Link to="/forgot-password" className="text-sm text-blue-600 underline">
+          Forgot Password?
+        </Link>
+      )}
     </div>
   )
 }
