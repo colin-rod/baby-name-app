@@ -14,25 +14,27 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-green-100 px-4 py-3 shadow">
-      <div className="max-w-2xl mx-auto flex justify-between items-center">
-        <h1 className="text-lg font-bold text-green-800">👶 ELO-Baby</h1>
-        <div className="flex gap-4 items-center">
+    <nav className="bg-gradient-to-r from-green-200 to-green-100 px-4 py-4 shadow-md">
+      <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-between">
+        <Link to="/" className="text-2xl font-extrabold text-green-900 tracking-tight">
+          eloBabyHub
+        </Link>
+        <div className="flex space-x-4 items-center mt-2 sm:mt-0">
           <Link
             to="/"
-            className="text-sm text-blue-700 underline hover:text-blue-900"
+            className="text-sm text-green-800 hover:text-green-900 font-medium transition"
           >
             Dashboard
           </Link>
           <Link
             to="/settings"
-            className="text-sm text-blue-700 underline hover:text-blue-900"
+            className="text-sm text-green-800 hover:text-green-900 font-medium transition"
           >
             Settings
           </Link>
           <button
             onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium py-1 px-3 rounded transition"
+            className="bg-red-500 hover:bg-red-600 text-white text-sm font-semibold py-1.5 px-4 rounded-lg shadow-sm transition"
           >
             Logout
           </button>
