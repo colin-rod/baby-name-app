@@ -37,7 +37,6 @@ export default function EditList({ user }) {
   // Accordion open/close states
   const [isDetailsOpen, setIsDetailsOpen] = useState(true);
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
-  const [isFamilyOpen, setIsFamilyOpen] = useState(false);
   const [isSharingOpen, setIsSharingOpen] = useState(false);
   const [isAttributesOpen, setIsAttributesOpen] = useState(false);
   const [inviteRefreshKey, setInviteRefreshKey] = useState(0)
@@ -214,15 +213,7 @@ export default function EditList({ user }) {
               </label>
             ))}
           </div>
-        </AccordionSection>
-
-        {/* Accordion: Family Information */}
-        <AccordionSection
-          title="Family Information"
-          isOpen={isFamilyOpen}
-          onToggle={() => setIsFamilyOpen(!isFamilyOpen)}
-        >
-          <div className="mb-4">
+        <div className="mb-4">
             <label className="block font-medium mb-1">Parent Names</label>
             <input
               type="text"
