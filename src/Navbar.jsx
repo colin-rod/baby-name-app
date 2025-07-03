@@ -60,6 +60,7 @@ export default function Navbar() {
               <span className="absolute top-0 right-0 mt-[-4px] ml-1 h-2 w-2 bg-red-500 rounded-full"></span>
             )}
           </div>
+          <Link to="/faq" className="text-gray-700 hover:text-purple-700">FAQ</Link>
           <Link
             to="/settings"
             className="text-sm text-green-800 hover:text-green-900 font-medium transition"

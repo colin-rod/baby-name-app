@@ -14,6 +14,7 @@ import NameComparison from './NameComparison'
 import NameComparisonPage from './NameComparisonPage'
 import InvitePage from './InvitePage'
 import ManageLists from './ManageLists'
+import FAQ from './FAQ';
 
 
 
@@ -65,6 +66,7 @@ function App() {
 
     {/* ✅ Always accessible */}
     <Route path="/invite" element={<InvitePage />} />
+    <Route path="/faq" element={<FAQ />} />
   </Routes>
 </Router>
   )
