@@ -4,6 +4,7 @@ import { supabase } from './supabaseClient'
 import { FaMars, FaVenus, FaGenderless, FaChevronRight, FaChevronDown } from 'react-icons/fa'
 import AdminRoleManager from './AdminRoleManager'
 import InvitesList from './InvitesList'
+import { theme } from './theme';
 
 const ATTRIBUTE_OPTIONS = [
   'Short', 'Long', 'Unique', 'Classic', 'Trendy', 'Biblical', 'Nature-inspired',
@@ -152,8 +153,8 @@ export default function EditList({ user }) {
       {/* Left Column */}
       <div>
         <h2 className="text-xl font-semibold mb-4">Edit Name List</h2>
-        {message && <p className="text-green-600 mb-2">{message}</p>}
-        {error && <p className="text-red-600 mb-2">{error}</p>}
+        {message && <p style={{ color: theme.accent }} className="mb-2">{message}</p>}
+        {error && <p style={{ color: 'red' }} className="mb-2">{error}</p>}
 
         <input
           type="text"
@@ -238,7 +239,7 @@ export default function EditList({ user }) {
   </button>
   {showAccess && (
     <div className="mt-2 overflow-auto">
-      <div className="overflow-x-auto border rounded p-4 bg-white shadow">
+      <div className="overflow-x-auto border rounded p-4" style={{ backgroundColor: 'white', borderColor: theme.primary }}>
         {/* Add min-w-max to the table container inside AdminRoleManager */}
         <AdminRoleManager listId={id} currentUserId={user.id} tableContainerClass="min-w-max" />
         {/* Invite User to List Section */}
@@ -290,7 +291,8 @@ if (inviteError) {
             </select>
             <button
               type="submit"
-              className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+              style={{ backgroundColor: theme.primaryDark }}
+              className="text-white px-4 py-2 rounded hover:opacity-90"
             >
               Send Invite
             </button>
@@ -340,14 +342,15 @@ if (inviteError) {
 
         <button
           onClick={handleSave}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          style={{ backgroundColor: theme.accent }}
+          className="text-white px-4 py-2 rounded hover:opacity-90"
         >
           Save Changes
         </button>
       </div>
 
       {/* Right Column */}
-      <div className="bg-gray-50 border border-gray-300 rounded p-4 shadow-inner">
+      <div style={{ backgroundColor: theme.background }} className="border rounded p-4 shadow-inner" style={{ backgroundColor: theme.background, borderColor: theme.primary }}>
         <h3 className="text-lg font-semibold mb-4">Names in This List</h3>
         <div className="flex gap-2 mb-4">
           <input
@@ -359,7 +362,8 @@ if (inviteError) {
           />
           <button
             onClick={handleAddName}
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
+            style={{ backgroundColor: theme.secondaryDark }}
+            className="text-white px-4 py-2 rounded hover:opacity-90 disabled:opacity-50"
             disabled={addingName}
           >
             Add
@@ -372,7 +376,8 @@ if (inviteError) {
               <span>{name.name}</span>
               <button
                 onClick={() => handleDeleteName(name.id)}
-                className="text-red-600 text-sm hover:underline"
+                style={{ color: 'red' }}
+                className="text-sm hover:underline"
               >
                 Delete
               </button>
