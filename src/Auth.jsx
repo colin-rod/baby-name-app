@@ -75,14 +75,24 @@ export default function Auth() {
   
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100 p-6">
-      <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-6">EloBabyHub</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-lavender-100 to-green-100 p-6">
+      <div className="bg-white rounded-2xl shadow-md p-10 w-full max-w-md">
+        <h1 className="text-4xl font-bold text-center mb-6 text-lavender-700">EloBabyHub</h1>
         <div className="flex border-b border-gray-300 mb-4">
-          <ThemedTabButton active={mode === 'login'} onClick={() => setMode('login')} color="primary">
+          <ThemedTabButton
+            active={mode === 'login'}
+            onClick={() => setMode('login')}
+            color="primary"
+            className="border-r border-gray-300 font-semibold"
+          >
             I already have an account
           </ThemedTabButton>
-          <ThemedTabButton active={mode === 'signup'} onClick={() => setMode('signup')} color="accent">
+          <ThemedTabButton
+            active={mode === 'signup'}
+            onClick={() => setMode('signup')}
+            color="accent"
+            className="font-semibold"
+          >
             I'm new here
           </ThemedTabButton>
         </div>
@@ -112,7 +122,10 @@ export default function Auth() {
               <Button color="primary" onClick={() => handleAuth('signin')} disabled={loading} className="w-full">
                 Log In
               </Button>
-              <Link to="/forgot-password" className="text-sm underline" style={{ color: theme.primary }}>
+              <Link
+                to="/forgot-password"
+                className="text-sm underline text-lavender-500 hover:text-lavender-700"
+              >
                 Forgot Password?
               </Link>
             </>
