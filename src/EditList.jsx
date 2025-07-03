@@ -32,8 +32,8 @@ export default function EditList({ user }) {
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
-  const [showAccess, setShowAccess] = useState(false)
-  const [showAttributes, setShowAttributes] = useState(false)
+  // const [showAccess, setShowAccess] = useState(false)
+  // const [showAttributes, setShowAttributes] = useState(false)
   // Accordion open/close states
   const [isDetailsOpen, setIsDetailsOpen] = useState(true);
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
@@ -260,84 +260,73 @@ export default function EditList({ user }) {
           isOpen={isSharingOpen}
           onToggle={() => setIsSharingOpen(!isSharingOpen)}
         >
-          <button
-            onClick={() => setShowAccess(!showAccess)}
-            className="text-blue-600 underline text-sm flex items-center gap-1"
-          >
-            {showAccess ? <FaChevronDown /> : <FaChevronRight />}
-            <span>{showAccess ? 'Hide' : 'Manage'} Access & Roles</span>
-          </button>
-          {showAccess && (
-            <div className="mt-2 overflow-auto">
-              <div className="overflow-x-auto border rounded p-4" style={{ backgroundColor: 'white', borderColor: theme.primary }}>
-                {/* Add min-w-max to the table container inside AdminRoleManager */}
-                <AdminRoleManager listId={id} currentUserId={user.id} tableContainerClass="min-w-max" />
-                {/* Invite User to List Section */}
-                <div className="mt-8">
-                  <label className="block font-medium mb-2">Invite User to List</label>
-                  <form
-                    onSubmit={async (e) => {
-                      e.preventDefault()
-                      const formData = new FormData(e.target)
-                      const email = formData.get('email')
-                      const role = formData.get('role')
+          <div className="mt-2 overflow-auto">
+            <div className="overflow-x-auto border rounded p-4" style={{ backgroundColor: 'white', borderColor: theme.primary }}>
+              <AdminRoleManager listId={id} currentUserId={user.id} tableContainerClass="min-w-max" />
+              <div className="mt-8">
+                <label className="block font-medium mb-2">Invite User to List</label>
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault()
+                    const formData = new FormData(e.target)
+                    const email = formData.get('email')
+                    const role = formData.get('role')
 
-                      const { error: inviteError } = await supabase
-                        .from('pending_invites')
-                        .insert({
-                          list_id: id,
-                          email,
-                          role,
-                          status: 'pending',
-                          invited_by: user.id,
-                        })
+                    const { error: inviteError } = await supabase
+                      .from('pending_invites')
+                      .insert({
+                        list_id: id,
+                        email,
+                        role,
+                        status: 'pending',
+                        invited_by: user.id,
+                      })
 
-                      if (inviteError) {
-                        alert('Failed to invite user: ' + inviteError.message)
-                      } else {
-                        await sendInvite(email, id, role)
-                        alert('User invited and email sent!')
-                        e.target.reset()
-                      }
-                    }}
-                    className="space-y-2"
-                  >
-                    <input
-                      type="email"
-                      name="email"
-                      placeholder="User email"
-                      required
-                      className="w-full border px-3 py-2 rounded"
-                    />
-                    <select name="role" className="w-full border px-3 py-2 rounded">
-                      <option value="voter">Voter</option>
-                      <option value="submitter">Submitter</option>
-                      <option value="viewer_plus">Viewer Plus</option>
-                      <option value="owner">Owner</option>
-                      <option value="admin">Admin</option>
-                    </select>
-                    <button
-                      type="submit"
-                      style={{ backgroundColor: theme.primaryDark }}
-                      className="text-white px-4 py-2 rounded hover:opacity-90"
-                    >
-                      Send Invite
-                    </button>
-                  </form>
-                </div>
-                <div className="mt-8">
-                  <h3 className="font-semibold mb-2">Invites You've Sent</h3>
-                  <InvitesList
-                    key={`sent-${inviteRefreshKey}`}
-                    listId={id}
-                    mode="sent"
-                    currentUserEmail={user.email}
-                    currentUserId={user.id}
+                    if (inviteError) {
+                      alert('Failed to invite user: ' + inviteError.message)
+                    } else {
+                      await sendInvite(email, id, role)
+                      alert('User invited and email sent!')
+                      e.target.reset()
+                    }
+                  }}
+                  className="space-y-2"
+                >
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="User email"
+                    required
+                    className="w-full border px-3 py-2 rounded"
                   />
-                </div>
+                  <select name="role" className="w-full border px-3 py-2 rounded">
+                    <option value="voter">Voter</option>
+                    <option value="submitter">Submitter</option>
+                    <option value="viewer_plus">Viewer Plus</option>
+                    <option value="owner">Owner</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                  <button
+                    type="submit"
+                    style={{ backgroundColor: theme.primaryDark }}
+                    className="text-white px-4 py-2 rounded hover:opacity-90"
+                  >
+                    Send Invite
+                  </button>
+                </form>
+              </div>
+              <div className="mt-8">
+                <h3 className="font-semibold mb-2">Invites You've Sent</h3>
+                <InvitesList
+                  key={`sent-${inviteRefreshKey}`}
+                  listId={id}
+                  mode="sent"
+                  currentUserEmail={user.email}
+                  currentUserId={user.id}
+                />
               </div>
             </div>
-          )}
+          </div>
         </AccordionSection>
 
         {/* Accordion: Attributes */}
@@ -346,30 +335,21 @@ export default function EditList({ user }) {
           isOpen={isAttributesOpen}
           onToggle={() => setIsAttributesOpen(!isAttributesOpen)}
         >
-          <button
-            onClick={() => setShowAttributes(!showAttributes)}
-            className="text-blue-600 underline text-sm flex items-center gap-1"
-          >
-            {showAttributes ? <FaChevronDown /> : <FaChevronRight />}
-            <span>{showAttributes ? 'Hide' : 'Show'} Preferred Attributes</span>
-          </button>
-          {showAttributes && (
-            <div className="mt-2">
-              <label className="block font-medium mb-1">Preferred Attributes</label>
-              <div className="grid grid-cols-2 gap-2">
-                {ATTRIBUTE_OPTIONS.map((attr) => (
-                  <label key={attr} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={attributes.includes(attr)}
-                      onChange={() => toggleAttribute(attr)}
-                    />
-                    <span>{attr}</span>
-                  </label>
-                ))}
-              </div>
+          <div className="mt-2">
+            <label className="block font-medium mb-1">Preferred Attributes</label>
+            <div className="grid grid-cols-2 gap-2">
+              {ATTRIBUTE_OPTIONS.map((attr) => (
+                <label key={attr} className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    checked={attributes.includes(attr)}
+                    onChange={() => toggleAttribute(attr)}
+                  />
+                  <span>{attr}</span>
+                </label>
+              ))}
             </div>
-          )}
+          </div>
         </AccordionSection>
 
         <button
