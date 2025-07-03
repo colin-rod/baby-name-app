@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
 import { Link } from 'react-router-dom'
+import { theme } from './theme';
 
 export default function Dashboard({ user }) {
   const [listsByRole, setListsByRole] = useState({})
@@ -49,7 +50,7 @@ export default function Dashboard({ user }) {
 
         <div className="mb-6">
           <Link to="/upload">
-            <button className="bg-blue-600 text-white px-4 py-2 rounded">
+            <button className={`bg-[${theme.accent}] hover:bg-[${theme.accentDark}] text-white px-4 py-2 rounded`}>
               + Create New Name List
             </button>
           </Link>
@@ -70,7 +71,7 @@ export default function Dashboard({ user }) {
           </select>
         </div>
 
-        <div className="bg-white p-4 rounded shadow">
+        <div className={`bg-white p-4 rounded shadow border border-[${theme.secondary}]`}>
           <h2 className="text-lg font-semibold mb-3">Your Name Lists</h2>
           {loading ? (
             <p>Loading...</p>
@@ -92,18 +93,18 @@ export default function Dashboard({ user }) {
                     return 0
                   })
                   .map((list) => (
-                  <div key={list.id} className="border p-4 rounded mb-2 flex justify-between items-center">
+                  <div key={list.id} className={`border border-[${theme.secondary}] p-4 rounded mb-2 flex justify-between items-center bg-white shadow-sm`}>
                     <div>
-                      <Link to={`/list/${list.id}/compare`} className="font-semibold text-blue-700 hover:underline">
+                      <Link to={`/list/${list.id}/compare`} className={`font-semibold text-[${theme.accentDark}] hover:underline`}>
                         {list.title}
                       </Link>
                       <p className="text-sm text-gray-600">Created: {new Date(list.created_at).toLocaleDateString()}</p>
                     </div>
                     <div className="flex gap-4 items-center">
-                      <a href={`/list/${list.id}/results`} className="text-blue-600 text-sm underline flex items-center gap-1">
+                      <a href={`/list/${list.id}/results`} className={`text-[${theme.accent}] text-sm underline flex items-center gap-1`}>
                         📈 View Results
                       </a>
-                      <a href={`/edit/${list.id}`} className="text-sm text-blue-600 underline flex items-center gap-1">
+                      <a href={`/edit/${list.id}`} className={`text-[${theme.accent}] text-sm underline flex items-center gap-1`}>
                         ✏️ Edit
                       </a>
                     </div>
