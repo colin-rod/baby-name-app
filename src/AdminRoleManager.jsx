@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
-import ThemedTable from './components/ui/ThemedTable'
+import ThemedTable from './components/ThemedTable'
 import ThemedSelect from './components/ui/ThemedSelect'
 import ThemedCard from './components/ui/ThemedCard'
 
