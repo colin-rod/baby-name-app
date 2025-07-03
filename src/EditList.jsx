@@ -350,7 +350,10 @@ if (inviteError) {
       </div>
 
       {/* Right Column */}
-      <div style={{ backgroundColor: theme.background }} className="border rounded p-4 shadow-inner" style={{ backgroundColor: theme.background, borderColor: theme.primary }}>
+      <div
+  style={{ backgroundColor: theme.background, borderColor: theme.primary }}
+  className="border rounded p-4 shadow-inner"
+>
         <h3 className="text-lg font-semibold mb-4">Names in This List</h3>
         <div className="flex gap-2 mb-4">
           <input
