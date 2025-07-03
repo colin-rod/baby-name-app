@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { supabase } from './supabaseClient'
+import { theme } from './theme'
 
 export default function InvitePage() {
   const [searchParams] = useSearchParams()
@@ -68,8 +69,8 @@ navigate(`/login?redirectTo=${encodeURIComponent(redirectUrl)}`)
   }, [token, navigate])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-50">
-      <div className="bg-white p-6 rounded shadow-md text-center max-w-md">
+    <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: theme.background }}>
+      <div className="p-6 rounded shadow-md text-center max-w-md" style={{ backgroundColor: 'white', borderColor: theme.primary, color: theme.text, borderWidth: '1px' }}>
         <p>{status}</p>
       </div>
     </div>

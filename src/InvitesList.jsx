@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { supabase } from './supabaseClient';
+import { theme } from './theme';
 
 export default function InvitesList({ listId, currentUserId, currentUserEmail, mode = 'sent' }) {
   const [invites, setInvites] = useState([]);
@@ -30,22 +31,22 @@ export default function InvitesList({ listId, currentUserId, currentUserEmail, m
 
   if (!invites.length) {
     return (
-      <p className="text-sm text-gray-500">
+      <p className="text-sm" style={{ color: theme.text }}>
         {mode === 'sent' ? 'No pending invites sent yet.' : 'No pending invites received yet.'}
       </p>
     );
   }
 
   return (
-    <div className="mt-4">
+    <div className="mt-4 p-4 rounded" style={{ backgroundColor: theme.background }}>
       <h3 className="text-md font-semibold mb-2">Pending Invites</h3>
       <ul className="space-y-2">
         {invites.map((invite) => (
-          <li key={invite.id} className="border p-2 rounded bg-gray-50">
+          <li key={invite.id} className="border p-2 rounded" style={{ backgroundColor: theme.secondary }}>
             <div>
               <span className="font-medium">{invite.email}</span> – <span className="italic">{invite.role}</span>
             </div>
-            <div className="text-xs text-gray-400">
+            <div className="text-xs" style={{ color: theme.text }}>
               Sent on {new Date(invite.created_at).toLocaleDateString()}
             </div>
           </li>

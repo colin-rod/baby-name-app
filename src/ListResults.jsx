@@ -1,3 +1,4 @@
+import { theme } from './theme';
 import { useEffect, useState } from 'react'
 import { useParams, Link, Outlet } from 'react-router-dom'
 import { supabase } from './supabaseClient'
@@ -142,7 +143,7 @@ export function ListResultsContent() {
   const rankedNames = calculateScores()
 
   return (
-    <main className="p-8 max-w-2xl mx-auto">
+    <main style={{ backgroundColor: theme.background }} className="p-8 max-w-2xl mx-auto rounded">
       <h1 className="text-2xl font-bold mb-6 text-center">📊 Name Rankings</h1>
 
       {loading ? (
@@ -154,7 +155,8 @@ export function ListResultsContent() {
           {rankedNames.map((entry) => (
             <li
               key={entry.id}
-              className="bg-gray-50 p-4 rounded shadow hover:shadow-md transition relative"
+              className="bg-white p-4 rounded border shadow hover:shadow-md transition relative"
+              style={{ borderColor: theme.primary }}
             >
               <div className="flex justify-between items-center">
                 <div>
@@ -168,7 +170,8 @@ export function ListResultsContent() {
                     onClick={() =>
                       setActiveNameId(activeNameId === entry.id ? null : entry.id)
                     }
-                    className="text-blue-600 underline text-sm"
+                    className="underline text-sm"
+                    style={{ color: theme.accent }}
                   >
                     {activeNameId === entry.id ? 'Hide Feedback' : 'View Feedback'}
                   </button>
@@ -201,7 +204,8 @@ export function ListResultsContent() {
       <div className="mt-8 text-center">
         <Link
           to={`/list/${id}`}
-          className="text-blue-600 underline hover:text-blue-800"
+          className="underline hover:opacity-80"
+          style={{ color: theme.accent }}
         >
           ← Back to List
         </Link>

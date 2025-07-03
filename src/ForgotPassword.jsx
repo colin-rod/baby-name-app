@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import { supabase } from './supabaseClient'
 import { Link } from 'react-router-dom'
+import { theme } from './theme'
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('')
@@ -22,7 +23,10 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
+    <div
+      style={{ backgroundColor: theme.background }}
+      className="min-h-screen flex flex-col items-center justify-center p-4"
+    >
       <h1 className="text-xl font-bold mb-4">Forgot Password</h1>
       <input
         type="email"
@@ -33,11 +37,11 @@ export default function ForgotPassword() {
       />
       <button
         onClick={handleReset}
-        className="bg-blue-600 text-white px-4 py-2 rounded w-64 mb-2"
+        className={`bg-[${theme.accent}] text-white px-4 py-2 rounded w-64 mb-2 hover:bg-[${theme.accentDark}]`}
       >
         Send Reset Link
       </button>
-      {message && <p className="text-green-600 text-sm">{message}</p>}
+      {message && <p className={`text-[${theme.accent}] text-sm`}>{message}</p>}
       {error && <p className="text-red-600 text-sm">{error}</p>}
       <Link to="/" className="text-sm text-blue-600 mt-4 underline">← Back to login</Link>
     </div>

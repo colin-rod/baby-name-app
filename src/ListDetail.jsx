@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { supabase } from './supabaseClient'
 import NameComparison from './NameComparison'
+import { theme } from './theme'
 
 
 
@@ -55,27 +56,27 @@ export default function ListDetail({ user }) {
   if (!list) return <p className="p-4 text-gray-500">List not found</p>
 
   return (
-    <div className="min-h-screen bg-green-50 p-8">
-      <div className="max-w-2xl mx-auto bg-white p-6 rounded shadow">
+    <div className="min-h-screen p-8" style={{ backgroundColor: theme.background }}>
+      <div className="max-w-2xl mx-auto p-6 rounded shadow" style={{ backgroundColor: theme.primary }}>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold">{list.title}</h2>
+          <h2 className={`text-xl font-bold text-[${theme.text}]`}>{list.title}</h2>
           <Link to="/" className="text-blue-600 underline">← Back</Link>
         </div>
 
-        <p className="text-gray-600 mb-4">
+        <p className={`mb-4 text-[${theme.text}]`}>
           Created on: {new Date(list.created_at).toLocaleDateString()}
         </p>
 
         <Link
   to={`/list/${id}/results`}
-  className="text-blue-600 underline hover:text-blue-800 mb-4 block"
+  className={`text-[${theme.accent}] underline hover:text-[${theme.accentDark}] mb-4 block`}
 >
   📈 View Rankings
 </Link>
 
 
         {names.length < 2 ? (
-  <p className="text-gray-500">You need at least 2 names to start comparing.</p>
+  <p className={`text-[${theme.text}]`}>You need at least 2 names to start comparing.</p>
 ) : (
   
 
