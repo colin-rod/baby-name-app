@@ -43,7 +43,7 @@ export default function Dashboard({ user }) {
   }, [user.id])
 
   return (
-    <div className="p-8">
+    <div style={{ backgroundColor: theme.background }} className="min-h-screen p-8">
       <div className="max-w-2xl mx-auto">
 
         <p className="mb-4 text-gray-700">Welcome, {user.user_metadata?.username || user.email}!</p>
