@@ -106,10 +106,11 @@ export default function AdminRoleManager({ listId, currentUserId }) {
           width: i === 0 ? '40%' : i === 1 ? '20%' : '10%',
         })}
       />
+      <hr className="my-6 border-t border-gray-300" />
       <div className="mt-6 space-y-3">
-        <label className="block font-medium text-sm">Invite User to List</label>
         {/* Invite form elements would go here */}
       </div>
+      <hr className="my-6 border-t border-gray-300" />
       <div className="mt-6 space-y-3">
         {/* Pending invites section would go here */}
       </div>
