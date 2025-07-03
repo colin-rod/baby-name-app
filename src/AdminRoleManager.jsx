@@ -7,8 +7,7 @@ import Card from './components/Card'
 const ROLE_CAPABILITIES = {
   voter: ['vote'],
   submitter: ['vote', 'add_names'],
-  viewer_plus: ['vote', 'add_names', 'view_results'],
-  owner: ['vote', 'add_names', 'view_results', 'manage_roles'],
+  observer: ['vote', 'add_names', 'view_results'],
   admin: ['vote', 'add_names', 'view_results', 'manage_roles'],
 }
 
@@ -83,11 +82,13 @@ export default function AdminRoleManager({ listId, currentUserId }) {
                 onChange={(e) => updateRole(user.user_id, e.target.value)}
                 disabled={user.user_id === currentUserId}
               >
-                {Object.keys(ROLE_CAPABILITIES).map((role) => (
-                  <option key={role} value={role}>
-                    {role}
-                  </option>
-                ))}
+                {Object.keys(ROLE_CAPABILITIES)
+                  .filter((role) => role !== 'owner' && role !== 'admin')
+                  .map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
               </ThemedSelect>
             </td>
             {Object.keys(CAPABILITY_LABELS).map((cap) => (
