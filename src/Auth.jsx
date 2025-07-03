@@ -90,7 +90,7 @@ export default function Auth() {
           <ThemedTabButton
             active={mode === 'signup'}
             onClick={() => setMode('signup')}
-            color="accent"
+            color={theme.accent}
             className="font-semibold"
           >
             I'm new here
@@ -110,11 +110,6 @@ export default function Auth() {
           onChange={(e) => setPassword(e.target.value)}
           className="mb-2"
         />
-        {mode === 'signup' && (
-          <p className="text-sm text-gray-600 mb-2 text-center">
-            Already have an account? Try logging in above.
-          </p>
-        )}
         {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
         <div className="flex flex-col items-center mt-4 space-y-2">
           {mode === 'login' ? (
@@ -130,9 +125,14 @@ export default function Auth() {
               </Link>
             </>
           ) : (
-            <Button color="accent" onClick={() => handleAuth('signup')} disabled={loading} className="w-full">
+            <>
+            <Button color={theme.accent} onClick={() => handleAuth('signup')} disabled={loading} className="w-full">
               Sign Up
             </Button>
+              <p className="text-sm text-gray-600 text-center mt-2">
+                Already have an account? Try logging in above.
+              </p>
+            </>
           )}
         </div>
         {resetRequested ? (
