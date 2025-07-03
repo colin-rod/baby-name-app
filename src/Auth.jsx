@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from './supabaseClient'
 import { Link } from 'react-router-dom'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-
+import { theme } from './theme'
 
 export default function Auth() {
   const [email, setEmail] = useState('')
@@ -77,13 +77,15 @@ export default function Auth() {
         <h1 className="text-3xl font-bold text-center mb-6">EloBabyHub</h1>
         <div className="flex border-b border-gray-300 mb-4">
           <button
-            className={`flex-1 text-center px-4 py-2 rounded-t ${mode === 'login' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+            className={`flex-1 text-center px-4 py-2 rounded-t ${mode === 'login' ? 'text-white' : 'bg-gray-200'}`}
+            style={mode === 'login' ? { backgroundColor: theme.primary } : {}}
             onClick={() => setMode('login')}
           >
             I already have an account
           </button>
           <button
-            className={`flex-1 text-center px-4 py-2 rounded-t ${mode === 'signup' ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
+            className={`flex-1 text-center px-4 py-2 rounded-t ${mode === 'signup' ? 'text-white' : 'bg-gray-200'}`}
+            style={mode === 'signup' ? { backgroundColor: theme.accent } : {}}
             onClick={() => setMode('signup')}
           >
             I'm new here
@@ -113,19 +115,21 @@ export default function Auth() {
           {mode === 'login' ? (
             <>
               <button
-                className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+                className="text-white px-4 py-2 rounded w-full"
+                style={{ backgroundColor: theme.primary }}
                 onClick={() => handleAuth('signin')}
                 disabled={loading}
               >
                 Log In
               </button>
-              <Link to="/forgot-password" className="text-sm text-blue-600 underline">
+              <Link to="/forgot-password" className="text-sm underline" style={{ color: theme.primary }}>
                 Forgot Password?
               </Link>
             </>
           ) : (
             <button
-              className="bg-green-600 text-white px-4 py-2 rounded w-full"
+              className="text-white px-4 py-2 rounded w-full"
+              style={{ backgroundColor: theme.accent }}
               onClick={() => handleAuth('signup')}
               disabled={loading}
             >
@@ -144,7 +148,8 @@ export default function Auth() {
             />
             <button
               onClick={handleResetPassword}
-              className="bg-blue-600 text-white px-4 py-2 rounded w-full"
+              className="text-white px-4 py-2 rounded w-full"
+              style={{ backgroundColor: theme.primary }}
             >
               Send Reset Link
             </button>
