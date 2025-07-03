@@ -3,6 +3,9 @@ import { supabase } from './supabaseClient'
 import { Link } from 'react-router-dom'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { theme } from './theme'
+import ThemedInput from './components/ThemedInput'
+import Button from './components/Button'
+import ThemedTabButton from './components/ThemedTabButton'
 
 export default function Auth() {
   const [email, setEmail] = useState('')
@@ -76,65 +79,47 @@ export default function Auth() {
       <div className="bg-white rounded-xl shadow-xl p-8 w-full max-w-md">
         <h1 className="text-3xl font-bold text-center mb-6">EloBabyHub</h1>
         <div className="flex border-b border-gray-300 mb-4">
-          <button
-            className={`flex-1 text-center px-4 py-2 rounded-t ${mode === 'login' ? 'text-white' : 'bg-gray-200'}`}
-            style={mode === 'login' ? { backgroundColor: theme.primary } : {}}
-            onClick={() => setMode('login')}
-          >
+          <ThemedTabButton active={mode === 'login'} onClick={() => setMode('login')} color="primary">
             I already have an account
-          </button>
-          <button
-            className={`flex-1 text-center px-4 py-2 rounded-t ${mode === 'signup' ? 'text-white' : 'bg-gray-200'}`}
-            style={mode === 'signup' ? { backgroundColor: theme.accent } : {}}
-            onClick={() => setMode('signup')}
-          >
+          </ThemedTabButton>
+          <ThemedTabButton active={mode === 'signup'} onClick={() => setMode('signup')} color="accent">
             I'm new here
-          </button>
+          </ThemedTabButton>
         </div>
         {mode === 'signup' && (
           <p className="text-sm text-gray-600 mb-2 text-center">
             Already have an account? Try logging in above.
           </p>
         )}
-        <input
+        <ThemedInput
           type="email"
           placeholder="Email"
-          className="mb-2 p-2 border rounded w-full"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          className="mb-2"
         />
-        <input
+        <ThemedInput
           type="password"
           placeholder="Password"
-          className="mb-2 p-2 border rounded w-full"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="mb-2"
         />
         {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
         <div className="flex flex-col items-center mt-4 space-y-2">
           {mode === 'login' ? (
             <>
-              <button
-                className="text-white px-4 py-2 rounded w-full"
-                style={{ backgroundColor: theme.primary }}
-                onClick={() => handleAuth('signin')}
-                disabled={loading}
-              >
+              <Button color="primary" onClick={() => handleAuth('signin')} disabled={loading} className="w-full">
                 Log In
-              </button>
+              </Button>
               <Link to="/forgot-password" className="text-sm underline" style={{ color: theme.primary }}>
                 Forgot Password?
               </Link>
             </>
           ) : (
-            <button
-              className="text-white px-4 py-2 rounded w-full"
-              style={{ backgroundColor: theme.accent }}
-              onClick={() => handleAuth('signup')}
-              disabled={loading}
-            >
+            <Button color="accent" onClick={() => handleAuth('signup')} disabled={loading} className="w-full">
               Sign Up
-            </button>
+            </Button>
           )}
         </div>
         {resetRequested ? (
@@ -146,13 +131,9 @@ export default function Auth() {
               placeholder="Enter your email"
               className="border px-3 py-2 rounded w-full mb-2"
             />
-            <button
-              onClick={handleResetPassword}
-              className="text-white px-4 py-2 rounded w-full"
-              style={{ backgroundColor: theme.primary }}
-            >
+            <Button color="primary" onClick={handleResetPassword} className="w-full">
               Send Reset Link
-            </button>
+            </Button>
             <p className="text-sm text-gray-600 mt-2 cursor-pointer" onClick={() => setResetRequested(false)}>
               ← Back to login
             </p>
