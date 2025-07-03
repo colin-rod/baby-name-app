@@ -2,12 +2,14 @@ import { theme } from '../theme'
 
 const colorStyles = {
   primary: {
-    bg: `bg-[${theme.primary}]`,
-    hover: `hover:bg-[${theme.primaryDark}]`
+    bg: 'bg-[#6366F1]',
+    hover: 'hover:bg-[#4F46E5]',
+    text: 'text-white'
   },
   accent: {
-    bg: `bg-[${theme.accent}]`,
-    hover: `hover:bg-[${theme.accentDark}]`
+    bg: 'bg-[#10B981]',
+    hover: 'hover:bg-[#059669]',
+    text: 'text-white'
   }
 }
 
@@ -19,7 +21,7 @@ export default function Button({
   disabled = false,
   className = ''
 }) {
-  const { bg, hover } = colorStyles[color] || colorStyles.primary
+  const { bg, hover, text } = colorStyles[color] || colorStyles.primary
 
   return (
     <button
@@ -27,8 +29,7 @@ export default function Button({
       onClick={onClick}
       disabled={disabled}
       className={`
-        ${bg} ${hover}
-        text-white
+        ${bg} ${hover} ${text}
         px-4 py-2
         rounded
         transition-all

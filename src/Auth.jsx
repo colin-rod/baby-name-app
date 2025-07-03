@@ -75,9 +75,9 @@ export default function Auth() {
   
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6" style={{ backgroundColor: theme.background }}>
+    <div className={`min-h-screen flex items-center justify-center p-6 bg-[${theme.background}]`}>
       <div className="bg-white rounded-2xl shadow-md p-10 w-full max-w-md">
-        <h1 className="text-4xl font-bold text-center mb-6" style={{ color: theme.text }}>EloBabyHub</h1>
+        <h1 className={`text-4xl font-bold text-center mb-6 text-[${theme.text}]`}>EloBabyHub</h1>
         <div className="flex border-b border-gray-300 mb-4">
           <ThemedTabButton
             active={mode === 'login'}
@@ -119,14 +119,12 @@ export default function Auth() {
         <div className="flex flex-col items-center mt-4 space-y-2">
           {mode === 'login' ? (
             <>
-              <Button color="primaryDark" onClick={() => handleAuth('signin')} disabled={loading} className="w-full">
+              <Button color="primary" onClick={() => handleAuth('signin')} disabled={loading} className="w-full">
                 Log In
               </Button>
               <Link
                 to="/forgot-password"
-                className="text-sm underline" style={{ color: theme.primary }}
-                onMouseOver={(e) => (e.target.style.color = theme.primaryDark)}
-                onMouseOut={(e) => (e.target.style.color = theme.primary)}
+                className={`text-sm underline text-[${theme.primary}] hover:text-[${theme.primaryDark}]`}
               >
                 Forgot Password?
               </Link>
