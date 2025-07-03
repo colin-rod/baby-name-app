@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
 import ThemedTable from './components/ThemedTable'
 import ThemedSelect from './components/ThemedSelect'
-import Card from './components/Card'
 
 const ROLE_CAPABILITIES = {
   voter: ['vote'],
@@ -68,8 +67,8 @@ export default function AdminRoleManager({ listId, currentUserId }) {
   const headers = ['User Email', 'Role', ...Object.values(CAPABILITY_LABELS)]
 
   return (
-    <Card>
-      <h2 className="text-xl font-semibold mb-4 text-primary">Manage List Roles</h2>
+    <div className="bg-white rounded border border-primary shadow p-4">
+      <h2 className="text-lg font-semibold text-primary mb-4">Manage List Roles</h2>
       <ThemedTable
         headers={headers}
         rows={users}
@@ -107,6 +106,13 @@ export default function AdminRoleManager({ listId, currentUserId }) {
           width: i === 0 ? '40%' : i === 1 ? '20%' : '10%',
         })}
       />
-    </Card>
+      <div className="mt-6 space-y-3">
+        <label className="block font-medium text-sm">Invite User to List</label>
+        {/* Invite form elements would go here */}
+      </div>
+      <div className="mt-6 space-y-3">
+        {/* Pending invites section would go here */}
+      </div>
+    </div>
   )
 }
