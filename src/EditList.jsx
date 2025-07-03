@@ -204,15 +204,6 @@ export default function EditList({ user }) {
               ))}
             </div>
           </div>
-          <div className="mb-4">
-            <label className="block font-medium mb-1">Visibility</label>
-            {['private', 'shared', 'public'].map((v) => (
-              <label key={v} className="flex items-center gap-2">
-                <input type="radio" name="visibility" value={v} checked={visibility === v} onChange={() => setVisibility(v)} />
-                <span>{v === 'private' ? 'Private (default)' : v.charAt(0).toUpperCase() + v.slice(1)}</span>
-              </label>
-            ))}
-          </div>
         <div className="mb-4">
             <label className="block font-medium mb-1">Parent Names</label>
             <input
