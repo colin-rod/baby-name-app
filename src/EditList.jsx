@@ -149,9 +149,9 @@ export default function EditList({ user }) {
   if (loading) return <p className="p-4">Loading...</p>
 
   return (
-    <div className="max-w-5xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="max-w-5xl mx-auto p-6 flex flex-col md:flex-row gap-6">
       {/* Left Column */}
-      <div>
+      <div className="flex-1 border rounded p-6 shadow-sm" style={{ backgroundColor: theme.background, borderColor: theme.primary }}>
         <h2 className="text-xl font-semibold mb-4">Edit Name List</h2>
         {message && <p style={{ color: theme.accent }} className="mb-2">{message}</p>}
         {error && <p style={{ color: 'red' }} className="mb-2">{error}</p>}
@@ -350,10 +350,7 @@ if (inviteError) {
       </div>
 
       {/* Right Column */}
-      <div
-  style={{ backgroundColor: theme.background, borderColor: theme.primary }}
-  className="border rounded p-4 shadow-inner"
->
+      <div className="flex-1 border rounded p-6 shadow-sm" style={{ backgroundColor: theme.background, borderColor: theme.primary }}>
         <h3 className="text-lg font-semibold mb-4">Names in This List</h3>
         <div className="flex gap-2 mb-4">
           <input
