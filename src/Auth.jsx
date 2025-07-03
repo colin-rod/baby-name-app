@@ -96,11 +96,6 @@ export default function Auth() {
             I'm new here
           </ThemedTabButton>
         </div>
-        {mode === 'signup' && (
-          <p className="text-sm text-gray-600 mb-2 text-center">
-            Already have an account? Try logging in above.
-          </p>
-        )}
         <ThemedInput
           type="email"
           placeholder="Email"
@@ -115,6 +110,11 @@ export default function Auth() {
           onChange={(e) => setPassword(e.target.value)}
           className="mb-2"
         />
+        {mode === 'signup' && (
+          <p className="text-sm text-gray-600 mb-2 text-center">
+            Already have an account? Try logging in above.
+          </p>
+        )}
         {error && <p className="text-red-600 text-sm mb-2">{error}</p>}
         <div className="flex flex-col items-center mt-4 space-y-2">
           {mode === 'login' ? (
