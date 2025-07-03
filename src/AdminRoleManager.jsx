@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
+import ThemedTable from './ThemedTable'
 
 const ROLE_CAPABILITIES = {
   voter: ['vote'],
@@ -61,54 +62,49 @@ const { data, error } = await supabase
   }
 
   if (loading) return <p>Loading roles...</p>
-  if (error) return <p className="text-red-500">{error}</p>
+  if (error) return <p className="text-red-600">{error}</p>
+
+  const headers = [
+    'User Email',
+    'Role',
+    ...Object.values(CAPABILITY_LABELS)
+  ]
 
   return (
-    <div className="p-6 bg-white shadow rounded max-w-4xl mx-auto">
-      <h2 className="text-lg font-semibold mb-4">Manage List Roles</h2>
-      <table className="w-full text-sm border-collapse border">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border px-3 py-2 text-left">User Email</th>
-            <th className="border px-3 py-2 text-left">Role</th>
+    <div className="p-6 bg-primaryLight shadow rounded max-w-4xl mx-auto">
+      <h2 className="text-xl font-semibold mb-4">Manage List Roles</h2>
+      <ThemedTable
+        headers={headers}
+        rows={users}
+        renderRow={(user) => (
+          <tr key={user.user_id} className="border-t">
+            <td className="border border-primary px-3 py-2">{user.email || user.user_id}</td>
+            <td className="border border-primary px-3 py-2">
+              <select
+                value={user.role}
+                onChange={(e) => updateRole(user.user_id, e.target.value)}
+                className="border border-primary rounded px-2 py-1"
+                disabled={user.user_id === currentUserId}
+              >
+                {Object.keys(ROLE_CAPABILITIES).map((role) => (
+                  <option key={role} value={role}>
+                    {role}
+                  </option>
+                ))}
+              </select>
+            </td>
             {Object.keys(CAPABILITY_LABELS).map((cap) => (
-              <th key={cap} className="border px-3 py-2 text-center">
-                {CAPABILITY_LABELS[cap]}
-              </th>
+              <td key={cap} className="border border-primary px-3 py-2 text-center">
+                <input
+                  type="checkbox"
+                  checked={ROLE_CAPABILITIES[user.role]?.includes(cap)}
+                  readOnly
+                />
+              </td>
             ))}
           </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.user_id} className="border-t">
-              <td className="border px-3 py-2">{user.email || user.user_id}</td>
-              <td className="border px-3 py-2">
-                <select
-                  value={user.role}
-                  onChange={(e) => updateRole(user.user_id, e.target.value)}
-                  className="border rounded px-2 py-1"
-                  disabled={user.user_id === currentUserId}
-                >
-                  {Object.keys(ROLE_CAPABILITIES).map((role) => (
-                    <option key={role} value={role}>
-                      {role}
-                    </option>
-                  ))}
-                </select>
-              </td>
-              {Object.keys(CAPABILITY_LABELS).map((cap) => (
-                <td key={cap} className="border px-3 py-2 text-center">
-                  <input
-                    type="checkbox"
-                    checked={ROLE_CAPABILITIES[user.role]?.includes(cap)}
-                    readOnly
-                  />
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        )}
+      />
     </div>
   )
 }

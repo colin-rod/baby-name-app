@@ -59,6 +59,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/edit/:id" element={<EditList user={session.user} />} />
           <Route path="/manage-lists" element={<ManageLists user={session.user} />} />
+          <Route path="/faq" element={<FAQ />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />
       </>
@@ -66,7 +67,6 @@ function App() {
 
     {/* ✅ Always accessible */}
     <Route path="/invite" element={<InvitePage />} />
-    <Route path="/faq" element={<FAQ />} />
   </Routes>
 </Router>
   )
