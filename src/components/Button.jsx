@@ -2,12 +2,12 @@ import { theme } from '../theme'
 
 const colorStyles = {
   primary: {
-    base: theme.primary,
-    hover: theme.primaryDark || '#6D28D9' // fallback if not defined
+    bg: `bg-[${theme.primary}]`,
+    hover: `hover:bg-[${theme.primaryDark}]`
   },
   accent: {
-    base: theme.accent,
-    hover: theme.accentDark || '#059669'
+    bg: `bg-[${theme.accent}]`,
+    hover: `hover:bg-[${theme.accentDark}]`
   }
 }
 
@@ -19,17 +19,15 @@ export default function Button({
   disabled = false,
   className = ''
 }) {
-  const { base, hover } = colorStyles[color] || colorStyles.primary
+  const { bg, hover } = colorStyles[color] || colorStyles.primary
 
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      style={{ backgroundColor: base }}
-      onMouseEnter={e => (e.currentTarget.style.backgroundColor = hover)}
-      onMouseLeave={e => (e.currentTarget.style.backgroundColor = base)}
       className={`
+        ${bg} ${hover}
         text-white
         px-4 py-2
         rounded
