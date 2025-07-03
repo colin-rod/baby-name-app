@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
 import ThemedTable from './components/ThemedTable'
-import ThemedSelect from './components/ui/ThemedSelect'
-import ThemedCard from './components/ui/ThemedCard'
+import ThemedSelect from './components/ThemedSelect'
+import Card from './components/Card'
 
 const ROLE_CAPABILITIES = {
   voter: ['vote'],
@@ -69,7 +69,7 @@ export default function AdminRoleManager({ listId, currentUserId }) {
   const headers = ['User Email', 'Role', ...Object.values(CAPABILITY_LABELS)]
 
   return (
-    <ThemedCard>
+    <Card>
       <h2 className="text-xl font-semibold mb-4 text-primary">Manage List Roles</h2>
       <ThemedTable
         headers={headers}
@@ -102,6 +102,6 @@ export default function AdminRoleManager({ listId, currentUserId }) {
           </tr>
         )}
       />
-    </ThemedCard>
+    </Card>
   )
 }
