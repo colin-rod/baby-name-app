@@ -75,7 +75,7 @@ export default function AdminRoleManager({ listId, currentUserId }) {
         rows={users}
         renderRow={(user) => (
           <tr key={user.user_id}>
-            <td className="px-3 py-2">{user.email || user.user_id}</td>
+            <td className="px-2 py-1 break-words text-sm">{user.email || user.user_id}</td>
             <td className="px-3 py-2">
               <ThemedSelect
                 value={user.role}
@@ -102,6 +102,10 @@ export default function AdminRoleManager({ listId, currentUserId }) {
             ))}
           </tr>
         )}
+        tableClassName="w-full table-fixed border border-primary"
+        headerCellStyle={(i) => ({
+          width: i === 0 ? '40%' : i === 1 ? '20%' : '10%',
+        })}
       />
     </Card>
   )
