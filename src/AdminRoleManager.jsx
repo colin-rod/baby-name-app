@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { supabase } from './supabaseClient'
-import ThemedTable from './ThemedTable'
+import ThemedTable from './components/ui/ThemedTable'
+import ThemedSelect from './components/ui/ThemedSelect'
+import ThemedCard from './components/ui/ThemedCard'
 
 const ROLE_CAPABILITIES = {
   voter: ['vote'],
@@ -25,10 +27,10 @@ export default function AdminRoleManager({ listId, currentUserId }) {
   useEffect(() => {
     const fetchRoles = async () => {
       setLoading(true)
-const { data, error } = await supabase
-  .from('list_user_roles_view') // use your actual view name
-  .select('*')
-  .eq('list_id', listId)
+      const { data, error } = await supabase
+        .from('list_user_roles_view')
+        .select('*')
+        .eq('list_id', listId)
 
       if (error) {
         setError(error.message)
@@ -64,26 +66,21 @@ const { data, error } = await supabase
   if (loading) return <p>Loading roles...</p>
   if (error) return <p className="text-red-600">{error}</p>
 
-  const headers = [
-    'User Email',
-    'Role',
-    ...Object.values(CAPABILITY_LABELS)
-  ]
+  const headers = ['User Email', 'Role', ...Object.values(CAPABILITY_LABELS)]
 
   return (
-    <div className="p-6 bg-primaryLight shadow rounded max-w-4xl mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Manage List Roles</h2>
+    <ThemedCard>
+      <h2 className="text-xl font-semibold mb-4 text-primary">Manage List Roles</h2>
       <ThemedTable
         headers={headers}
         rows={users}
         renderRow={(user) => (
-          <tr key={user.user_id} className="border-t">
-            <td className="border border-primary px-3 py-2">{user.email || user.user_id}</td>
-            <td className="border border-primary px-3 py-2">
-              <select
+          <tr key={user.user_id}>
+            <td className="px-3 py-2">{user.email || user.user_id}</td>
+            <td className="px-3 py-2">
+              <ThemedSelect
                 value={user.role}
                 onChange={(e) => updateRole(user.user_id, e.target.value)}
-                className="border border-primary rounded px-2 py-1"
                 disabled={user.user_id === currentUserId}
               >
                 {Object.keys(ROLE_CAPABILITIES).map((role) => (
@@ -91,10 +88,10 @@ const { data, error } = await supabase
                     {role}
                   </option>
                 ))}
-              </select>
+              </ThemedSelect>
             </td>
             {Object.keys(CAPABILITY_LABELS).map((cap) => (
-              <td key={cap} className="border border-primary px-3 py-2 text-center">
+              <td key={cap} className="px-3 py-2 text-center">
                 <input
                   type="checkbox"
                   checked={ROLE_CAPABILITIES[user.role]?.includes(cap)}
@@ -105,6 +102,6 @@ const { data, error } = await supabase
           </tr>
         )}
       />
-    </div>
+    </ThemedCard>
   )
 }
