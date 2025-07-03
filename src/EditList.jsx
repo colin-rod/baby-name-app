@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from './supabaseClient'
 import { FaMars, FaVenus, FaGenderless, FaChevronRight, FaChevronDown } from 'react-icons/fa'
+import AccordionSection from './components/AccordionSection';
+
 import AdminRoleManager from './AdminRoleManager'
 import InvitesList from './InvitesList'
 import { theme } from './theme';
@@ -32,6 +34,12 @@ export default function EditList({ user }) {
   const [error, setError] = useState('')
   const [showAccess, setShowAccess] = useState(false)
   const [showAttributes, setShowAttributes] = useState(false)
+  // Accordion open/close states
+  const [isDetailsOpen, setIsDetailsOpen] = useState(true);
+  const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
+  const [isFamilyOpen, setIsFamilyOpen] = useState(false);
+  const [isSharingOpen, setIsSharingOpen] = useState(false);
+  const [isAttributesOpen, setIsAttributesOpen] = useState(false);
   const [inviteRefreshKey, setInviteRefreshKey] = useState(0)
 
   useEffect(() => {
@@ -155,174 +163,189 @@ export default function EditList({ user }) {
         <h2 className="text-xl font-semibold mb-4">Edit Name List</h2>
         {message && <p style={{ color: theme.accent }} className="mb-2">{message}</p>}
         {error && <p style={{ color: 'red' }} className="mb-2">{error}</p>}
+        {/* Accordion: List Details */}
+        <AccordionSection
+          title="List Details"
+          isOpen={isDetailsOpen}
+          onToggle={() => setIsDetailsOpen(!isDetailsOpen)}
+        >
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="List Title"
+            className="w-full border px-3 py-2 rounded mb-4"
+          />
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Description (optional)"
+            className="w-full border px-3 py-2 rounded mb-4"
+          />
+        </AccordionSection>
 
-        <h3 className="text-lg font-semibold mb-2 border-b pb-1">List Details</h3>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="List Title"
-          className="w-full border px-3 py-2 rounded mb-4"
-        />
-
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Description (optional)"
-          className="w-full border px-3 py-2 rounded mb-4"
-        />
-
-        <hr className="my-4" />
-        <h3 className="text-lg font-semibold mb-2 border-b pb-1">Preferences</h3>
-        <div className="mb-4">
-          <label className="block font-medium mb-1">Gender</label>
-          <div className="space-y-2">
-            {[
-              { value: 'boy', icon: <FaMars className="text-blue-600" /> },
-              { value: 'girl', icon: <FaVenus className="text-pink-500" /> },
-              { value: 'unisex', icon: <FaGenderless className="text-gray-600" /> }
-            ].map(({ value, icon }) => (
-              <label key={value} className="flex items-center gap-2">
-                <input type="radio" name="gender" value={value} checked={tag === value} onChange={() => setTag(value)} />
-                <span className="flex items-center gap-1">{icon} {value.charAt(0).toUpperCase() + value.slice(1)}</span>
+        {/* Accordion: Preferences */}
+        <AccordionSection
+          title="Preferences"
+          isOpen={isPreferencesOpen}
+          onToggle={() => setIsPreferencesOpen(!isPreferencesOpen)}
+        >
+          <div className="mb-4">
+            <label className="block font-medium mb-1">Gender</label>
+            <div className="space-y-2">
+              {[
+                { value: 'boy', icon: <FaMars className="text-blue-600" /> },
+                { value: 'girl', icon: <FaVenus className="text-pink-500" /> },
+                { value: 'unisex', icon: <FaGenderless className="text-gray-600" /> }
+              ].map(({ value, icon }) => (
+                <label key={value} className="flex items-center gap-2">
+                  <input type="radio" name="gender" value={value} checked={tag === value} onChange={() => setTag(value)} />
+                  <span className="flex items-center gap-1">{icon} {value.charAt(0).toUpperCase() + value.slice(1)}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+          <div className="mb-4">
+            <label className="block font-medium mb-1">Visibility</label>
+            {['private', 'shared', 'public'].map((v) => (
+              <label key={v} className="flex items-center gap-2">
+                <input type="radio" name="visibility" value={v} checked={visibility === v} onChange={() => setVisibility(v)} />
+                <span>{v === 'private' ? 'Private (default)' : v.charAt(0).toUpperCase() + v.slice(1)}</span>
               </label>
             ))}
           </div>
-        </div>
+        </AccordionSection>
 
-        <div className="mb-4">
-          <label className="block font-medium mb-1">Visibility</label>
-          {['private', 'shared', 'public'].map((v) => (
-            <label key={v} className="flex items-center gap-2">
-              <input type="radio" name="visibility" value={v} checked={visibility === v} onChange={() => setVisibility(v)} />
-              <span>{v === 'private' ? 'Private (default)' : v.charAt(0).toUpperCase() + v.slice(1)}</span>
-            </label>
-          ))}
-        </div>
-
-        <hr className="my-4" />
-        <h3 className="text-lg font-semibold mb-2 border-b pb-1">Family Information</h3>
-        <div className="mb-4">
-          <label className="block font-medium mb-1">Parent Names</label>
-          <input
-            type="text"
-            value={parentNames}
-            onChange={(e) => setParentNames(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
-            placeholder="e.g. Alex & Jamie"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block font-medium mb-1">Sibling Names</label>
-          <input
-            type="text"
-            value={siblingNames}
-            onChange={(e) => setSiblingNames(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
-            placeholder="e.g. Ella, Leo"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block font-medium mb-1">Last Name</label>
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
-            placeholder="e.g. Thompson"
-          />
-        </div>
-<hr className="my-4" />
-<div className="mb-4">
-  <h3 className="text-lg font-semibold mb-2 border-b pb-1">Sharing & Permissions</h3>
-  <button
-    onClick={() => setShowAccess(!showAccess)}
-    className="text-blue-600 underline text-sm flex items-center gap-1"
-  >
-    {showAccess ? <FaChevronDown /> : <FaChevronRight />}
-    <span>{showAccess ? 'Hide' : 'Manage'} Access & Roles</span>
-  </button>
-  {showAccess && (
-    <div className="mt-2 overflow-auto">
-      <div className="overflow-x-auto border rounded p-4" style={{ backgroundColor: 'white', borderColor: theme.primary }}>
-        {/* Add min-w-max to the table container inside AdminRoleManager */}
-        <AdminRoleManager listId={id} currentUserId={user.id} tableContainerClass="min-w-max" />
-        {/* Invite User to List Section */}
-        <div className="mt-8">
-          <label className="block font-medium mb-2">Invite User to List</label>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault()
-              const formData = new FormData(e.target)
-              const email = formData.get('email')
-              const role = formData.get('role')
-
-        const { error: inviteError } = await supabase
-  .from('pending_invites')
-  .insert({
-    list_id: id,
-    email,
-    role,
-    status: 'pending',
-      invited_by: user.id,
-  })
-
-if (inviteError) {
-  alert('Failed to invite user: ' + inviteError.message)
-} else {
-  await sendInvite(email, id, role)
-    alert('User invited and email sent!')
-
-
-  e.target.reset()
-}
-
-            }}
-            className="space-y-2"
-          >
+        {/* Accordion: Family Information */}
+        <AccordionSection
+          title="Family Information"
+          isOpen={isFamilyOpen}
+          onToggle={() => setIsFamilyOpen(!isFamilyOpen)}
+        >
+          <div className="mb-4">
+            <label className="block font-medium mb-1">Parent Names</label>
             <input
-              type="email"
-              name="email"
-              placeholder="User email"
-              required
+              type="text"
+              value={parentNames}
+              onChange={(e) => setParentNames(e.target.value)}
               className="w-full border px-3 py-2 rounded"
+              placeholder="e.g. Alex & Jamie"
             />
-            <select name="role" className="w-full border px-3 py-2 rounded">
-              <option value="voter">Voter</option>
-              <option value="submitter">Submitter</option>
-              <option value="viewer_plus">Viewer Plus</option>
-              <option value="owner">Owner</option>
-              <option value="admin">Admin</option>
-            </select>
-            <button
-              type="submit"
-              style={{ backgroundColor: theme.primaryDark }}
-              className="text-white px-4 py-2 rounded hover:opacity-90"
-            >
-              Send Invite
-            </button>
-          </form>
-        </div>
-        <div className="mt-8">
-          <h3 className="font-semibold mb-2">Invites You've Sent</h3>
-          <InvitesList
-            key={`sent-${inviteRefreshKey}`}
-            listId={id}
-            mode="sent"
-            currentUserEmail={user.email}
-            currentUserId={user.id}
-          />
-        </div>
-      </div>
-    </div>
-  )}
-</div>
+          </div>
+          <div className="mb-4">
+            <label className="block font-medium mb-1">Sibling Names</label>
+            <input
+              type="text"
+              value={siblingNames}
+              onChange={(e) => setSiblingNames(e.target.value)}
+              className="w-full border px-3 py-2 rounded"
+              placeholder="e.g. Ella, Leo"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block font-medium mb-1">Last Name</label>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="w-full border px-3 py-2 rounded"
+              placeholder="e.g. Thompson"
+            />
+          </div>
+        </AccordionSection>
 
-        <hr className="my-4" />
-        <h3 className="text-lg font-semibold mb-2 border-b pb-1">Attributes</h3>
-        <div className="mb-4">
+        {/* Accordion: Sharing & Permissions */}
+        <AccordionSection
+          title="Sharing & Permissions"
+          isOpen={isSharingOpen}
+          onToggle={() => setIsSharingOpen(!isSharingOpen)}
+        >
+          <button
+            onClick={() => setShowAccess(!showAccess)}
+            className="text-blue-600 underline text-sm flex items-center gap-1"
+          >
+            {showAccess ? <FaChevronDown /> : <FaChevronRight />}
+            <span>{showAccess ? 'Hide' : 'Manage'} Access & Roles</span>
+          </button>
+          {showAccess && (
+            <div className="mt-2 overflow-auto">
+              <div className="overflow-x-auto border rounded p-4" style={{ backgroundColor: 'white', borderColor: theme.primary }}>
+                {/* Add min-w-max to the table container inside AdminRoleManager */}
+                <AdminRoleManager listId={id} currentUserId={user.id} tableContainerClass="min-w-max" />
+                {/* Invite User to List Section */}
+                <div className="mt-8">
+                  <label className="block font-medium mb-2">Invite User to List</label>
+                  <form
+                    onSubmit={async (e) => {
+                      e.preventDefault()
+                      const formData = new FormData(e.target)
+                      const email = formData.get('email')
+                      const role = formData.get('role')
+
+                      const { error: inviteError } = await supabase
+                        .from('pending_invites')
+                        .insert({
+                          list_id: id,
+                          email,
+                          role,
+                          status: 'pending',
+                          invited_by: user.id,
+                        })
+
+                      if (inviteError) {
+                        alert('Failed to invite user: ' + inviteError.message)
+                      } else {
+                        await sendInvite(email, id, role)
+                        alert('User invited and email sent!')
+                        e.target.reset()
+                      }
+                    }}
+                    className="space-y-2"
+                  >
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="User email"
+                      required
+                      className="w-full border px-3 py-2 rounded"
+                    />
+                    <select name="role" className="w-full border px-3 py-2 rounded">
+                      <option value="voter">Voter</option>
+                      <option value="submitter">Submitter</option>
+                      <option value="viewer_plus">Viewer Plus</option>
+                      <option value="owner">Owner</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                    <button
+                      type="submit"
+                      style={{ backgroundColor: theme.primaryDark }}
+                      className="text-white px-4 py-2 rounded hover:opacity-90"
+                    >
+                      Send Invite
+                    </button>
+                  </form>
+                </div>
+                <div className="mt-8">
+                  <h3 className="font-semibold mb-2">Invites You've Sent</h3>
+                  <InvitesList
+                    key={`sent-${inviteRefreshKey}`}
+                    listId={id}
+                    mode="sent"
+                    currentUserEmail={user.email}
+                    currentUserId={user.id}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+        </AccordionSection>
+
+        {/* Accordion: Attributes */}
+        <AccordionSection
+          title="Attributes"
+          isOpen={isAttributesOpen}
+          onToggle={() => setIsAttributesOpen(!isAttributesOpen)}
+        >
           <button
             onClick={() => setShowAttributes(!showAttributes)}
             className="text-blue-600 underline text-sm flex items-center gap-1"
@@ -347,9 +370,8 @@ if (inviteError) {
               </div>
             </div>
           )}
-        </div>
+        </AccordionSection>
 
-        <hr className="my-4" />
         <button
           onClick={handleSave}
           style={{ backgroundColor: theme.accent }}
