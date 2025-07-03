@@ -156,6 +156,7 @@ export default function EditList({ user }) {
         {message && <p style={{ color: theme.accent }} className="mb-2">{message}</p>}
         {error && <p style={{ color: 'red' }} className="mb-2">{error}</p>}
 
+        <h3 className="text-lg font-semibold mb-2 border-b pb-1">List Details</h3>
         <input
           type="text"
           value={title}
@@ -171,6 +172,8 @@ export default function EditList({ user }) {
           className="w-full border px-3 py-2 rounded mb-4"
         />
 
+        <hr className="my-4" />
+        <h3 className="text-lg font-semibold mb-2 border-b pb-1">Preferences</h3>
         <div className="mb-4">
           <label className="block font-medium mb-1">Gender</label>
           <div className="space-y-2">
@@ -197,6 +200,8 @@ export default function EditList({ user }) {
           ))}
         </div>
 
+        <hr className="my-4" />
+        <h3 className="text-lg font-semibold mb-2 border-b pb-1">Family Information</h3>
         <div className="mb-4">
           <label className="block font-medium mb-1">Parent Names</label>
           <input
@@ -229,7 +234,9 @@ export default function EditList({ user }) {
             placeholder="e.g. Thompson"
           />
         </div>
+<hr className="my-4" />
 <div className="mb-4">
+  <h3 className="text-lg font-semibold mb-2 border-b pb-1">Sharing & Permissions</h3>
   <button
     onClick={() => setShowAccess(!showAccess)}
     className="text-blue-600 underline text-sm flex items-center gap-1"
@@ -313,6 +320,8 @@ if (inviteError) {
   )}
 </div>
 
+        <hr className="my-4" />
+        <h3 className="text-lg font-semibold mb-2 border-b pb-1">Attributes</h3>
         <div className="mb-4">
           <button
             onClick={() => setShowAttributes(!showAttributes)}
@@ -340,6 +349,7 @@ if (inviteError) {
           )}
         </div>
 
+        <hr className="my-4" />
         <button
           onClick={handleSave}
           style={{ backgroundColor: theme.accent }}
