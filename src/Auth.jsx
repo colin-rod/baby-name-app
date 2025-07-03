@@ -82,7 +82,7 @@ export default function Auth() {
           <ThemedTabButton
             active={mode === 'login'}
             onClick={() => setMode('login')}
-            color="primary"
+            color="primaryDark"
             className="border-r border-gray-300 font-semibold"
           >
             I already have an account
@@ -119,7 +119,7 @@ export default function Auth() {
         <div className="flex flex-col items-center mt-4 space-y-2">
           {mode === 'login' ? (
             <>
-              <Button color="primary" onClick={() => handleAuth('signin')} disabled={loading} className="w-full">
+              <Button color="primaryDark" onClick={() => handleAuth('signin')} disabled={loading} className="w-full">
                 Log In
               </Button>
               <Link
