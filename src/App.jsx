@@ -53,9 +53,9 @@ function App() {
         <Route element={<AppLayout />}>
           <Route path="/" element={<Dashboard user={session.user} />} />
           <Route path="/upload" element={<NameListUpload user={session.user} />} />
-          <Route path="/list/:id" element={<ListDetail user={session.user} />} />
+          <Route path="/list/:id" element={<NameComparisonPage user={session.user} />} />
           <Route path="/list/:id/results" element={<ListResultsContent />} />
-          <Route path="/list/:id/compare" element={<NameComparisonPage user={session.user} />} />
+          <Route path="/list/:id/compare" element={<Navigate to="/list/:id" />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/edit/:id" element={<EditList user={session.user} />} />
           <Route path="/manage-lists" element={<ManageLists user={session.user} />} />
