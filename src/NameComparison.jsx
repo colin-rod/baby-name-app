@@ -17,6 +17,12 @@ export default function NameComparison({ listId, user, names, lastName, parentNa
   const [lastChoice, setLastChoice] = useState(null)
   const [showFullNames, setShowFullNames] = useState(false)
   const [showOptions, setShowOptions] = useState(false)
+
+  const [showParentNames, setShowParentNames] = useState(false)
+  const [showSiblingNames, setShowSiblingNames] = useState(false)
+  const [showGender, setShowGender] = useState(false)
+  const [showAttributes, setShowAttributes] = useState(false)
+
 console.log('Received props in NameComparison:', {
   lastName,
   parentNames,
@@ -118,12 +124,6 @@ console.log('Received props in NameComparison:', {
     <div className={`mt-6 relative transition-opacity duration-300 ease-in-out ${fade ? 'opacity-100' : 'opacity-0'}`}>
 <h3 className="text-lg font-semibold mb-4 text-center text-text">
   Which name do you prefer?
-  <span className="ml-2 text-sm text-text inline-flex items-center gap-1">
-    <span className="underline decoration-dotted">Family context & preferences</span>
-    <span className="cursor-pointer" data-tooltip-id="context-tooltip">
-      <FaInfoCircle />
-    </span>
-  </span>
 </h3>
 
 <div className="flex items-center justify-center gap-4 mb-4">
@@ -134,20 +134,29 @@ console.log('Received props in NameComparison:', {
 
 <div className="mt-6 space-y-2 max-w-md mx-auto">
   <button
-    className="w-full py-3 bg-accent text-text rounded shadow hover:bg-secondaryDark flex items-center justify-center gap-2"
+    className="w-full py-3 bg-accentDark text-white rounded shadow hover:bg-secondaryDark flex items-center justify-center gap-2"
     onClick={() => handleChoice('both')}
     disabled={submitting}
   >
     <FaCheckDouble /> Both <FaCheckDouble />
   </button>
   <button
-    className="w-full py-3 bg-accent text-text rounded shadow hover:bg-secondaryDark flex items-center justify-center gap-2"
+    className="w-full py-3 bg-accentDark text-white rounded shadow hover:bg-secondaryDark flex items-center justify-center gap-2"
     onClick={() => handleChoice('skip')}
     disabled={submitting}
   >
     <FaTimesCircle /> Neither <FaTimesCircle />
   </button>
 </div>
+
+  {(showParentNames || showSiblingNames || showGender || showAttributes) && (
+    <div className="mt-4 p-4 bg-secondary border rounded shadow max-w-xl mx-auto text-text space-y-1 text-sm">
+      {showParentNames && <p><strong>Parents:</strong> {parentNames || 'N/A'}</p>}
+      {showSiblingNames && <p><strong>Siblings:</strong> {siblingNames || 'N/A'}</p>}
+      {showAttributes && <p><strong>Preferred Attributes:</strong> {attributes?.join(', ') || 'None selected'}</p>}
+      {showGender && <p><strong>Gender:</strong> {gender || 'Not specified'}</p>}
+    </div>
+  )}
 
       {showFeedbackPrompt && lastComparison && (
         <div className="mt-6 p-4 bg-secondaryDark border rounded shadow max-w-xl mx-auto text-text">
@@ -223,26 +232,26 @@ console.log('Received props in NameComparison:', {
   </button>
   {showOptions && (
     <div className="px-4 py-3 border-t space-y-3 text-sm text-text">
-      <div>
-        <span className="font-medium">Family Context & Preferences</span>
-        <div className="mt-1 text-gray-600">
-          <p><strong>Parents:</strong> {parentNames || 'N/A'}</p>
-          <p><strong>Siblings:</strong> {siblingNames || 'N/A'}</p>
-          <p><strong>Preferred Attributes:</strong> {attributes?.join(', ') || 'None selected'}</p>
-          <p><strong>Gender:</strong> {gender || 'Not specified'}</p>
-        </div>
-      </div>
-      <div>
-        <label htmlFor="showFullNames" className="inline-flex items-center gap-2 cursor-pointer">
-          <input
-            type="checkbox"
-            id="showFullNames"
-            checked={showFullNames}
-            onChange={() => setShowFullNames(!showFullNames)}
-          />
-          Show full names
-        </label>
-      </div>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={showFullNames} onChange={() => setShowFullNames(!showFullNames)} />
+        Show full names
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={showParentNames} onChange={() => setShowParentNames(!showParentNames)} />
+        Show Parent Names
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={showSiblingNames} onChange={() => setShowSiblingNames(!showSiblingNames)} />
+        Show Sibling Names
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={showGender} onChange={() => setShowGender(!showGender)} />
+        Show Gender
+      </label>
+      <label className="flex items-center gap-2">
+        <input type="checkbox" checked={showAttributes} onChange={() => setShowAttributes(!showAttributes)} />
+        Show Preferred Attributes
+      </label>
     </div>
   )}
 </div>
