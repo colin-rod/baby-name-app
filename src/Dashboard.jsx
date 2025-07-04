@@ -95,7 +95,7 @@ export default function Dashboard({ user }) {
                   .map((list) => (
                   <div key={list.id} className={`border border-[${theme.secondary}] p-4 rounded mb-2 flex justify-between items-center bg-white shadow-sm`}>
                     <div>
-                      <Link to={`/list/${list.id}/compare`} className={`font-semibold text-[${theme.accentDark}] hover:underline`}>
+                      <Link to={`/list/${list.id}`} className={`font-semibold text-[${theme.accentDark}] hover:underline`}>
                         {list.title}
                       </Link>
                       <p className="text-sm text-gray-600">Created: {new Date(list.created_at).toLocaleDateString()}</p>
