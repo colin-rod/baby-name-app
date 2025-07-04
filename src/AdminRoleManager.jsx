@@ -86,20 +86,24 @@ export default function AdminRoleManager({ listId, currentUserId }) {
           <tr key={user.user_id}>
             <td className="px-2 py-1 break-words text-sm">{user.email || user.user_id}</td>
             <td className="px-3 py-2">
-              <ThemedSelect
-                value={user.role}
-                onChange={(e) => updateRole(user.user_id, e.target.value)}
-                disabled={user.user_id === currentUserId}
-              >
-                {Object.keys(ROLE_CAPABILITIES)
-                  .filter((role) => role !== 'owner' && role !== 'Admin')
-                  .map((role) => (
-                    <option key={role} value={role}>
-                      {role}
-                    </option>
-                  ))}
-              </ThemedSelect>
-            </td>
+  {user.role === 'admin' ? (
+    <span className="text-sm font-medium text-gray-800">Admin</span>
+  ) : (
+    <ThemedSelect
+      value={user.role}
+      onChange={(e) => updateRole(user.user_id, e.target.value)}
+      disabled={user.user_id === currentUserId}
+    >
+      {Object.keys(ROLE_CAPABILITIES)
+        .filter((role) => role !== 'owner' && role !== 'admin')
+        .map((role) => (
+          <option key={role} value={role}>
+            {role}
+          </option>
+        ))}
+    </ThemedSelect>
+  )}
+</td>
             {Object.keys(CAPABILITY_LABELS).map((cap) => (
               <td key={cap} className="px-3 py-2 text-center">
                 <span className={`inline-block w-3 h-3 rounded-full ${ROLE_CAPABILITIES[user.role]?.includes(cap) ? 'bg-green-500' : 'bg-gray-300'}`}></span>
