@@ -4,10 +4,10 @@ import ThemedTable from './components/ThemedTable'
 import ThemedSelect from './components/ThemedSelect'
 
 const ROLE_CAPABILITIES = {
-  voter: ['vote'],
-  submitter: ['vote', 'add_names'],
-  observer: ['vote', 'add_names', 'view_results'],
-  admin: ['vote', 'add_names', 'view_results', 'manage_roles'],
+  Voter: ['vote'],
+  Submitter: ['vote', 'add_names'],
+  Observer: ['vote', 'add_names', 'view_results'],
+  Admin: ['vote', 'add_names', 'view_results', 'manage_roles'],
 }
 
 const CAPABILITY_LABELS = {
@@ -92,7 +92,7 @@ export default function AdminRoleManager({ listId, currentUserId }) {
                 disabled={user.user_id === currentUserId}
               >
                 {Object.keys(ROLE_CAPABILITIES)
-                  .filter((role) => role !== 'owner' && role !== 'admin')
+                  .filter((role) => role !== 'owner' && role !== 'Admin')
                   .map((role) => (
                     <option key={role} value={role}>
                       {role}
