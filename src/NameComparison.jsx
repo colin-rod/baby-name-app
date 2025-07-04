@@ -16,6 +16,7 @@ export default function NameComparison({ listId, user, names, lastName, parentNa
   const [lastPair, setLastPair] = useState(null)
   const [lastChoice, setLastChoice] = useState(null)
   const [showFullNames, setShowFullNames] = useState(false)
+  const [showOptions, setShowOptions] = useState(false)
 console.log('Received props in NameComparison:', {
   lastName,
   parentNames,
@@ -103,7 +104,7 @@ console.log('Received props in NameComparison:', {
   const renderNameButton = (nameObj, position) => (
     <div className="relative flex-1">
       <button
-        className="w-full py-8 px-6 bg-blue-600 text-white text-3xl rounded shadow hover:bg-blue-700 active:scale-95 transition-all"
+        className="w-full py-8 px-6 bg-accent text-text text-3xl rounded shadow hover:bg-secondaryDark active:scale-95 transition-all"
         onClick={() => handleChoice(position)}
         disabled={submitting}
       >
@@ -115,9 +116,9 @@ console.log('Received props in NameComparison:', {
 
   return (
     <div className={`mt-6 relative transition-opacity duration-300 ease-in-out ${fade ? 'opacity-100' : 'opacity-0'}`}>
-<h3 className="text-lg font-semibold mb-4 text-center">
+<h3 className="text-lg font-semibold mb-4 text-center text-text">
   Which name do you prefer?
-  <span className="ml-2 text-sm text-gray-600 inline-flex items-center gap-1">
+  <span className="ml-2 text-sm text-text inline-flex items-center gap-1">
     <span className="underline decoration-dotted">Family context & preferences</span>
     <span className="cursor-pointer" data-tooltip-id="context-tooltip">
       <FaInfoCircle />
@@ -125,64 +126,41 @@ console.log('Received props in NameComparison:', {
   </span>
 </h3>
 
-<Tooltip id="context-tooltip" place="top" effect="solid" renderInPortal={true} className="!text-sm !p-3 !bg-gray-800 !text-white !rounded shadow-lg" style={{ maxWidth: '250px', whiteSpace: 'normal',zIndex: 9999 }}>
-  <div className="text-sm text-left">
-    <p><strong>Parents:</strong> {parentNames || 'N/A'}</p>
-    <p><strong>Siblings:</strong> {siblingNames || 'N/A'}</p>
-    <p><strong>Preferred Attributes:</strong> {attributes?.join(', ') || 'None selected'}</p>
-    <p><strong>Gender:</strong> {gender || 'Not specified'}</p>
-  </div>
-</Tooltip>
-
-<div className="flex justify-center items-center mb-2 text-sm text-gray-700 gap-2">
-  <label htmlFor="showFullNames" className="cursor-pointer">
-    <input
-      type="checkbox"
-      id="showFullNames"
-      checked={showFullNames}
-      onChange={() => setShowFullNames(!showFullNames)}
-      className="mr-1"
-    />
-    Show full names
-  </label>
+<div className="flex items-center justify-center gap-4 mb-4">
+  {renderNameButton(pair[0], 'a')}
+  <div className="text-lg text-text font-semibold px-2">or</div>
+  {renderNameButton(pair[1], 'b')}
 </div>
 
-
-      <div className="flex items-center justify-center gap-4 mb-4">
-        {renderNameButton(pair[0], 'a')}
-        <div className="text-lg text-gray-500 font-semibold px-2">or</div>
-        {renderNameButton(pair[1], 'b')}
-      </div>
-
-      <div className="mt-6 space-y-2 max-w-md mx-auto">
-        <button
-          className="w-full py-3 bg-green-500 text-white rounded shadow hover:bg-green-600 flex items-center justify-center gap-2"
-          onClick={() => handleChoice('both')}
-          disabled={submitting}
-        >
-          <FaCheckDouble /> Both <FaCheckDouble />
-        </button>
-        <button
-          className="w-full py-3 bg-red-500 text-white rounded shadow hover:bg-red-600 flex items-center justify-center gap-2"
-          onClick={() => handleChoice('skip')}
-          disabled={submitting}
-        >
-          <FaTimesCircle /> Neither <FaTimesCircle />
-        </button>
-      </div>
+<div className="mt-6 space-y-2 max-w-md mx-auto">
+  <button
+    className="w-full py-3 bg-accent text-text rounded shadow hover:bg-secondaryDark flex items-center justify-center gap-2"
+    onClick={() => handleChoice('both')}
+    disabled={submitting}
+  >
+    <FaCheckDouble /> Both <FaCheckDouble />
+  </button>
+  <button
+    className="w-full py-3 bg-accent text-text rounded shadow hover:bg-secondaryDark flex items-center justify-center gap-2"
+    onClick={() => handleChoice('skip')}
+    disabled={submitting}
+  >
+    <FaTimesCircle /> Neither <FaTimesCircle />
+  </button>
+</div>
 
       {showFeedbackPrompt && lastComparison && (
-        <div className="mt-6 p-4 bg-white border rounded shadow max-w-xl mx-auto">
+        <div className="mt-6 p-4 bg-secondaryDark border rounded shadow max-w-xl mx-auto text-text">
           <h4 className="font-semibold mb-2 text-sm">
             Why did you choose{' '}
-            <span className="font-bold text-blue-600">
+            <span className="font-bold text-accent">
               {lastChoice === 'a' && lastPair?.[0]?.name}
               {lastChoice === 'b' && lastPair?.[1]?.name}
               {lastChoice === 'both' && 'Both'}
               {lastChoice === 'skip' && 'Neither'}
             </span>{' '}
             over{' '}
-            <span className="text-gray-700">
+            <span className="text-text">
               {lastChoice === 'a' && lastPair?.[1]?.name}
               {lastChoice === 'b' && lastPair?.[0]?.name}
               {['both', 'skip'].includes(lastChoice) && `${lastPair?.[0]?.name} & ${lastPair?.[1]?.name}`}
@@ -192,7 +170,7 @@ console.log('Received props in NameComparison:', {
 
           <div className="space-y-1 mb-2">
             {feedbackOptions.map(option => (
-              <label key={option.id} className="block text-sm">
+              <label key={option.id} className="block text-sm text-text">
                 <input
                   type="radio"
                   name="preset"
@@ -210,7 +188,7 @@ console.log('Received props in NameComparison:', {
           </div>
 
           <textarea
-            className="w-full p-2 border rounded text-sm mb-2"
+            className="w-full p-2 border rounded text-sm mb-2 bg-secondaryDark text-text"
             placeholder="Other reason..."
             value={customReason}
             onChange={(e) => {
@@ -221,13 +199,13 @@ console.log('Received props in NameComparison:', {
 
           <div className="flex justify-end gap-2">
             <button
-              className="text-gray-600 text-sm hover:underline"
+              className="text-text text-sm hover:underline"
               onClick={() => setShowFeedbackPrompt(false)}
             >
               Dismiss
             </button>
             <button
-              className="bg-blue-600 text-white px-4 py-1 rounded text-sm hover:bg-blue-700"
+              className="bg-accent text-text px-4 py-1 rounded text-sm hover:bg-secondaryDark"
               onClick={handleSubmitFeedback}
             >
               Submit Feedback
@@ -235,6 +213,39 @@ console.log('Received props in NameComparison:', {
           </div>
         </div>
       )}
+
+<div className="mt-8 border rounded bg-white shadow max-w-xl mx-auto">
+  <button
+    className="w-full text-left px-4 py-3 font-semibold bg-primary text-text rounded-t"
+    onClick={() => setShowOptions(!showOptions)}
+  >
+    Options {showOptions ? '▲' : '▼'}
+  </button>
+  {showOptions && (
+    <div className="px-4 py-3 border-t space-y-3 text-sm text-text">
+      <div>
+        <span className="font-medium">Family Context & Preferences</span>
+        <div className="mt-1 text-gray-600">
+          <p><strong>Parents:</strong> {parentNames || 'N/A'}</p>
+          <p><strong>Siblings:</strong> {siblingNames || 'N/A'}</p>
+          <p><strong>Preferred Attributes:</strong> {attributes?.join(', ') || 'None selected'}</p>
+          <p><strong>Gender:</strong> {gender || 'Not specified'}</p>
+        </div>
+      </div>
+      <div>
+        <label htmlFor="showFullNames" className="inline-flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            id="showFullNames"
+            checked={showFullNames}
+            onChange={() => setShowFullNames(!showFullNames)}
+          />
+          Show full names
+        </label>
+      </div>
+    </div>
+  )}
+</div>
     </div>
   )
 }
