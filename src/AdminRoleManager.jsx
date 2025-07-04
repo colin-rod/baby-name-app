@@ -68,7 +68,17 @@ export default function AdminRoleManager({ listId, currentUserId }) {
 
   return (
     <div className="bg-white rounded border border-primary shadow p-4">
-      <h2 className="text-lg font-semibold text-primary mb-4">Manage List Roles</h2>
+      <h2 className="text-lg font-semibold text-primary mb-4 flex items-center gap-2">
+        Manage List Roles
+        <span className="relative group cursor-pointer text-gray-500">
+          ⓘ
+          <div className="absolute left-1/2 transform -translate-x-1/2 top-6 w-64 bg-white border border-gray-300 text-sm text-gray-700 p-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity z-10">
+            <p><strong>Voter:</strong> Can vote on names.</p>
+            <p><strong>Submitter:</strong> Can vote and submit names.</p>
+            <p><strong>Observer:</strong> Can vote, submit names, and view results.</p>
+          </div>
+        </span>
+      </h2>
       <ThemedTable
         headers={headers}
         rows={users}
@@ -92,11 +102,7 @@ export default function AdminRoleManager({ listId, currentUserId }) {
             </td>
             {Object.keys(CAPABILITY_LABELS).map((cap) => (
               <td key={cap} className="px-3 py-2 text-center">
-                <input
-                  type="checkbox"
-                  checked={ROLE_CAPABILITIES[user.role]?.includes(cap)}
-                  readOnly
-                />
+                <span className={`inline-block w-3 h-3 rounded-full ${ROLE_CAPABILITIES[user.role]?.includes(cap) ? 'bg-green-500' : 'bg-gray-300'}`}></span>
               </td>
             ))}
           </tr>
@@ -106,11 +112,9 @@ export default function AdminRoleManager({ listId, currentUserId }) {
           width: i === 0 ? '40%' : i === 1 ? '20%' : '10%',
         })}
       />
-      <hr className="my-6 border-t border-gray-300" />
       <div className="mt-6 space-y-3">
         {/* Invite form elements would go here */}
       </div>
-      <hr className="my-6 border-t border-gray-300" />
       <div className="mt-6 space-y-3">
         {/* Pending invites section would go here */}
       </div>

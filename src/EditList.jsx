@@ -285,9 +285,7 @@ export default function EditList({ user }) {
                     <select name="role" className="w-48 border px-3 py-2 rounded">
                       <option value="voter">Voter</option>
                       <option value="submitter">Submitter</option>
-                      <option value="viewer_plus">Viewer Plus</option>
-                      <option value="owner">Owner</option>
-                      <option value="admin">Admin</option>
+                      <option value="observer">Observer</option>
                     </select>
                   </div>
                   <button
@@ -300,7 +298,7 @@ export default function EditList({ user }) {
                 </form>
               </div>
               <div className="mt-8 border-t pt-6">
-                <h3 className="font-semibold mb-2">Invites You've Sent</h3>
+                <h3 className="font-semibold mb-2">Pending Invites</h3>
                 <InvitesList
                   key={`sent-${inviteRefreshKey}`}
                   listId={id}
