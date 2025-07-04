@@ -245,7 +245,7 @@ export default function EditList({ user }) {
           <div className="mt-2 overflow-auto">
             <div className="overflow-x-auto border rounded p-4" style={{ backgroundColor: 'white', borderColor: theme.primary }}>
               <AdminRoleManager listId={id} currentUserId={user.id} tableContainerClass="min-w-max" />
-              <div className="mt-8">
+              <div className="mt-8 border-t pt-6">
                 <label className="block font-medium mb-2">Invite User to List</label>
                 <form
                   onSubmit={async (e) => {
@@ -274,20 +274,22 @@ export default function EditList({ user }) {
                   }}
                   className="space-y-2"
                 >
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="User email"
-                    required
-                    className="w-full border px-3 py-2 rounded"
-                  />
-                  <select name="role" className="w-full border px-3 py-2 rounded">
-                    <option value="voter">Voter</option>
-                    <option value="submitter">Submitter</option>
-                    <option value="viewer_plus">Viewer Plus</option>
-                    <option value="owner">Owner</option>
-                    <option value="admin">Admin</option>
-                  </select>
+                  <div className="flex gap-2">
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="User email"
+                      required
+                      className="flex-1 border px-3 py-2 rounded"
+                    />
+                    <select name="role" className="w-48 border px-3 py-2 rounded">
+                      <option value="voter">Voter</option>
+                      <option value="submitter">Submitter</option>
+                      <option value="viewer_plus">Viewer Plus</option>
+                      <option value="owner">Owner</option>
+                      <option value="admin">Admin</option>
+                    </select>
+                  </div>
                   <button
                     type="submit"
                     style={{ backgroundColor: theme.primaryDark }}
@@ -297,7 +299,7 @@ export default function EditList({ user }) {
                   </button>
                 </form>
               </div>
-              <div className="mt-8">
+              <div className="mt-8 border-t pt-6">
                 <h3 className="font-semibold mb-2">Invites You've Sent</h3>
                 <InvitesList
                   key={`sent-${inviteRefreshKey}`}
